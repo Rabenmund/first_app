@@ -1,0 +1,12 @@
+<a href="<%= user_path(current_user) %>">
+  <%= gravatar_for current_user, size: 72 %>
+</a>
+<h1>
+	<%= current_user.nickname %>
+</h1>
+</span>
+	<%= link_to current_user, class: "btn" do %>
+	  <i class="icon-user"></i> Profil
+	<% end %>
+</span>
+

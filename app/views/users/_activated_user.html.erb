@@ -1,0 +1,16 @@
+<section>
+	<a href="<%= user_path(user) %>"> <%= gravatar_for user, size: 46 %> </a>
+	<span>
+		<h5>
+		<%= link_to user.nickname, user %>
+		</h5>
+		<h6>
+		<%= user.name %>
+		</h6>
+	</span>
+	<% if current_user.admin? && !current_user?(user) %>
+		<span>
+			<%= link_to "deaktivieren", deactivate_path(user), confirm: "Mitspieler #{(user.name)} wirklich deaktivieren ?", class: "btn btn-warning btn-mini" %>
+		</span>
+	<% end %>
+</section>

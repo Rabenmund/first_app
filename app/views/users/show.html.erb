@@ -1,0 +1,19 @@
+<% provide(:title, @user.name) %>
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+		<a href="<%= user_path(@user) %>"> <%= gravatar_for @user, size: 72 %> </a>
+        <%= @user.nickname %>
+	  <h2>
+		<%= @user.name %>
+      </h2>
+	  </h1>
+    </section>
+    <section>
+      <%= render 'shared/stats' %>
+    </section>
+	<section>
+	  <%= link_to "Einstellungen", edit_user_path(@user), class: "btn" if identic_or_admin? %>
+  </aside>
+</div>

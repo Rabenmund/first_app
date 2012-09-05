@@ -1,0 +1,32 @@
+<% provide(:title, @team.name) %>
+<div class="row">
+  <aside>
+    <section>
+      <h1>
+        <%= @team.name %>
+	  </h1>
+    </section>
+	<section>
+      <h3>
+        Saisons
+	  </h3>
+    </section>
+	<ul class="seasons">
+		<% if @team.seasons.count > 0 %>
+			<div class="row">
+			<aside>
+				<% @team.seasons.each do |season| %>
+					<div class="span2">
+						<%= render partial: 'seasons/season', locals: { season: season } %>
+					</div>
+		  		<%end%>
+			</aside>
+			</div>
+		<%else%>
+			<h6>Keine Saisons vorhanden</h6>
+		<%end%>
+	</ul>
+	<section>
+	  <%= link_to "Einstellungen", edit_team_path(@team), class: "btn" if current_user.is_admin? %>
+  </aside>
+</div>

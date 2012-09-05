@@ -1,0 +1,85 @@
+<% provide(:title, 'All users') %>
+<h1>DetSi's Mitspieler</h1>
+<div class=center>
+	<%= link_to "Neuen Mitspieler erstellen", new_user_path, class: "btn btn-primary" if current_user.is_admin?%>
+</div>
+<div><br></div>
+<ul class="users">
+	<% if current_user.is_admin? %>
+		<h2>Aktivierte Mitpieler</h2> 
+	<% end %>
+
+	<% if @activated_users %>	
+		<div class="row">
+		<aside>
+			<% c = 0%>
+			<% @activated_users.each do |user| %>
+				<% c = 0 if c > 3%>
+				<% c += 1 %>
+				<%case c%>
+					<%when 1%>
+					<div class="span3">
+						<%= render partial: 'activated_user', locals: { user: user } %>
+					</div>
+					<%when 2%>
+					<div class="span3">
+						<%= render partial: 'activated_user', locals: { user: user } %>
+					</div>
+					<%when 3%>
+					<div class="span3">
+						<%= render partial: 'activated_user', locals: { user: user } %>
+					</div>
+					<%when 4%>
+					<div class="span3">
+						<%= render partial: 'activated_user', locals: { user: user } %>
+					</div>
+				<%end%>
+	  		<%end%>
+		</aside>
+		</div>
+	<%else%>
+		<div class=center>Keine aktivierten Mitspieler vorhanden</div>
+	<%end%>
+	
+</ul>
+<section><div><br></div></section>
+<ul class="users">
+	<% if current_user.is_admin? %>
+		<section>
+			<h2>Deaktivierte Mitpieler</h2> 
+		</section>
+		<% if @deactivated_users %>
+			<div class="row">
+				<aside>
+					<% c = 0%>
+					<% @deactivated_users.each do |user| %>
+						<% c = 0 if c > 3%>
+						<% c += 1 %>
+						<%case c%>
+							<%when 1%>
+							<div class="span3">
+								<%= render :partial => 'deactivated_user', locals: { user: user } %>
+							</div>
+							<%when 2%>
+							<div class="span3">
+								<%= render :partial => 'deactivated_user', locals: { user: user } %>
+							</div>
+							<%when 3%>
+							<div class="span3">
+								<%= render :partial => 'deactivated_user', locals: { user: user } %>
+							</div>
+							<%when 4%>
+							<div class="span3">
+								<%= render :partial => 'deactivated_user', locals: { user: user } %>
+							</div>
+						<%end%>
+			  		<%end%>
+				</aside>
+			</div>
+		<%else%>
+			<div class=center>Keine deaktivierten Mitspieler vorhanden</div>
+		<%end%>
+	<%end%>
+	
+</ul>
+

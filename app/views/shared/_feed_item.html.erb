@@ -1,0 +1,22 @@
+<li id="<%= feed_item.id %>">
+	<div class="row">
+	  	<aside class="span1">
+  			<%= link_to gravatar_for(feed_item.user, size: 52), feed_item.user  %>
+			<% if current_user.is_admin? %>
+				<%= link_to "löschen", feed_item, method:  :delete,
+	                                 confirm: "Soll die Nachricht wirklich gelöscht werden ?",
+	                                 title:   feed_item.content, 
+									 class: "btn btn-mini btn-danger"%>
+			<% end %>
+		</aside>
+		<aside class="span3">
+			<span class="user">
+	  			<%= link_to feed_item.user.nickname, feed_item.user %>
+			</span>
+    		<span class="content"><%= wrap(feed_item.content) %></span>
+			<span class="timestamp">
+	  			Erstellt vor <%= time_ago_in_words(feed_item.created_at) %>.
+			</span>
+		</aside>
+	</div>
+</li>

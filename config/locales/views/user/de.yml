@@ -1,0 +1,21 @@
+# ruby encoding: utf-8
+
+de:
+  views:
+    show: Anzeigen
+    edit: Editieren
+    destroy: Löschen
+    are_you_sure: Sind Sie sicher?
+    back: Zurück
+    edit: Editieren
+    user:
+      index:
+        title: Mitspielerliste
+      new: Neuer Mitspieler
+      edit:
+        title: Mitspieler editieren
+      update:
+        title: Mitspieler aktualisiereb
+      flash_messages:
+        user_was_successfully_created: 'Der Mitspieler wurde erfolgreich angelegt.'
+        user_was_successfully_updated: 'Der Mitspieler wurde erfolgreich aktualisiert.'

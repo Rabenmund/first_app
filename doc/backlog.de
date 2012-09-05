@@ -1,0 +1,14 @@
+bugs
+
+
+stories
+-- tests schreiben (model test user : on create validation checken)
+
+
+later
+-- Passwort vergessen - was nun?
+-- Übersicht der currently signed-in
+-- lock/unlock bei zu vielen fehlerhaften logins
+
+
+

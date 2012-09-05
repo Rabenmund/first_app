@@ -1,0 +1,83 @@
+<div class="row">
+  <aside class="span4">
+    <section>
+      <%= render 'shared/user_info' %>
+    </section>
+    <section>
+      <%= render 'shared/stats' %>
+    </section>
+    <section>
+      <%= render 'shared/micropost_form' %>
+    </section>
+    <section>
+	<%= link_to home_path, class: "btn btn-info" do %>
+	  <i class="icon-repeat icon-white"></i> Kurznachrichten aktualisisieren
+	<% end %>
+    <%= render 'shared/feed' %>
+	</section>
+  </aside>
+  <div class="span8">
+    <h3>News</h3>
+	<br>
+	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam 	voluptua. 
+	At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. 
+	Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. 
+	At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+	<br>
+	<br>
+  </div>
+  <div class="span4">
+	<h3> Ergebnis 2. Spieltag </h3>
+	<br>
+	<% 20.times do |i| %>
+		<div class="span2">
+			<%= "Spieler #{i+1}"%>
+		</div>
+		<div class="span1">
+			<%= "#{32-i} Punkte"%>
+		</div>
+	<% end %>
+  </div>
+  <br>
+  <br>
+  <div class="span4">
+	<h3> Gesamtergebnis </h3>
+	<br>
+	<% 20.times do |i| %>
+		<div class="span2">
+			<%= "Spieler #{i+1}"%>
+		</div>
+		<div class="span1">
+			<%= "#{50-(i*2)} Punkte"%>
+		</div>
+	<% end %>
+	<br>
+	<br>
+  </div>
+  <div class="span8">
+	<br>
+	<br>
+    <h3>Nächster Tipp (3. Spieltag)</h3>
+	<br>
+	<% teams = ["Bayern München", "Borussia Dortmund", "Schalke 04", "Mönchengladbach", "SV Werder Bremen", "SV Hannover 96", "Hamburger SV", "1.FSV Mainz 05", "Bayer 04 Leverkusen", "VfB Stuttgart", "Eintracht Frankfurt", "SC Freiburg", "VfL Bochum", "Hertha BSC Berlin", "1.FC Nürnberg", "1.FC Köln", "Fortuna Düsseldorf", "MSV Duisburg"]%>
+	<% 9.times do |i| %>
+		<div class="span2">
+		<%= teams[17-i] %>
+		</div>
+		<div class="span1">
+		gegen 
+		</div>
+		<div class="span2">
+		<%= teams[i] %>
+		</div>
+		<div class="span1"> 
+		</div>
+		<div class="span2">
+		<%= "#{rand(4)} : #{rand(3)}"%>
+		</div>
+	<% end %>
+	<br>
+  </div>
+</div>  
+
+

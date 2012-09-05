@@ -1,0 +1,22 @@
+<% provide(:title, 'All Seasons') %>
+<h1>Saisons</h1>
+<div class=center>
+	<%= link_to "Neue Saison erstellen", new_season_path, class: "btn btn-primary" if current_user.is_admin?%>
+</div>
+<div><br></div>
+<ul class="seasons">
+	<% if @seasons.count > 0 %>
+		<div class="row">
+		<aside>
+			<% c = 0%>
+			<% @seasons.each do |season| %>
+				<div class="span2">
+					<%= render partial: 'season', locals: { season: season } %>
+				</div>
+	  		<%end%>
+		</aside>
+		</div>
+	<%else%>
+		<h6>Keine Saisons vorhanden</h6>
+	<%end%>
+</ul>

@@ -1,0 +1,24 @@
+<%= form_for(@user) do |f| %>
+<%= render 'shared/error_messages', object: f.object %>
+
+	<%= f.label :Nickname, "Nickname" %>
+	<%= f.text_field :nickname %>
+
+	<% if current_user.is_admin? %>
+		<%= f.label :name %>
+		<%= f.text_field :name %>
+	<% else %>
+		<%= f.hidden_field :name %>
+	<% end %>
+
+	<%= f.label :email %>
+	<%= f.text_field :email %>
+
+	<%= f.label :password, "Neues Passwort" %>
+	<%= f.password_field :password %>
+
+	<%= f.label :password_confirmation, "Passwort wiederholen" %>
+	<%= f.password_field :password_confirmation %>
+	
+  <%= f.submit "Speichern", class: "btn btn-large btn-primary" %>
+<% end %>

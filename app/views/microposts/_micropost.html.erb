@@ -1,0 +1,11 @@
+<li>
+  <span class="content"><%= micropost.content %></span>
+  <span class="timestamp">
+    Posted <%= time_ago_in_words(micropost.created_at) %> ago.
+  </span>
+  <% if current_user.is_admin? %>
+    <%= link_to "löschen", micropost, method:  :delete,
+                                     confirm: "Soll die Nachricht wirklich gelöscht werden ?",
+                                     title:   micropost.content %>
+  <% end %>
+</li>

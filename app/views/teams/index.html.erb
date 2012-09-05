@@ -1,0 +1,39 @@
+<% provide(:title, 'All teams') %>
+<h1>Mannschaften</h1>
+<div class=center>
+	<%= link_to "Neue Mannschaft erstellen", new_team_path, class: "btn btn-primary" if current_user.is_admin?%>
+</div>
+<div><br></div>
+<ul class="teams">
+	<% if @teams.count > 0 %>
+		<div class="row">
+		<aside>
+			<% c = 0%>
+			<% @teams.each do |team| %>
+				<% c = 0 if c > 3%>
+				<% c += 1 %>
+				<%case c%>
+					<%when 1%>
+					<div class="span3">
+						<%= render partial: 'team', locals: { team: team } %>
+					</div>
+					<%when 2%>
+					<div class="span3">
+						<%= render partial: 'team', locals: { team: team } %>
+					</div>
+					<%when 3%>
+					<div class="span3">
+						<%= render partial: 'team', locals: { team: team } %>
+					</div>
+					<%when 4%>
+					<div class="span3">
+						<%= render partial: 'team', locals: { team: team } %>
+					</div>
+				<%end%>
+	  		<%end%>
+		</aside>
+		</div>
+	<%else%>
+		<h6>Keine Mannschaften vorhanden</h6>
+	<%end%>
+</ul>

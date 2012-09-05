@@ -1,0 +1,18 @@
+<% provide(:title, "Anmelden") %>
+<h1>Sign in</h1>
+
+<div class="row">
+  <div class="span6 offset3">
+    <%= form_for(:session, url: sessions_path) do |f| %>
+
+      <%= f.label "Nickname oder email" %>
+      <%= f.text_field :auth %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+
+      <%= f.submit "Anmelden", class: "btn btn-large btn-primary", id: "submit" %>
+    <% end %>
+
+  </div>
+</div>

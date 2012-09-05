@@ -1,0 +1,11 @@
+<footer class="footer">
+  <small>
+    by Rabenmund
+  </small>
+  <nav>
+    <ul>
+      <li><%= link_to "Wir sind...",   about_path if signed_in?%></li>
+      <li><%= link_to "Kontakt", contact_path %></li>
+    </ul>
+  </nav>
+</footer>

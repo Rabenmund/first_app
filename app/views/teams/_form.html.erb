@@ -1,0 +1,13 @@
+<%= form_for(@team) do |f| %>
+<%= render 'shared/error_messages', object: f.object %>
+
+	<%= f.label :name %>
+	<%= f.text_field :name %>
+	
+	<div class="field">
+    	<%= f.label :Saison %><br />
+    	<%= f.select :season_ids, Season.all.collect { |s| [ s.name, s.id] }, { }, { multiple: true, size: 5 } %>
+  	</div>
+	
+  <%= f.submit "Speichern", class: "btn btn-large btn-primary" %>
+<% end %>
