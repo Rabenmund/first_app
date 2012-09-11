@@ -14,6 +14,27 @@
       <%= render 'shared/stats' %>
     </section>
 	<section>
+      <h3>
+        Saisons
+	  </h3>
+    </section
+	<ul class="seasons">
+		<% if @user.seasons.count > 0 %>
+			<div class="row">
+			<aside>
+				<% @user.seasons.each do |season| %>
+					<div class="span2">
+						<%= render partial: 'seasons/season', locals: { season: season } %>
+					</div>
+		  		<%end%>
+			</aside>
+			</div>
+		<%else%>
+			<h6>Keine Saisons vorhanden</h6>
+		<%end%>
+	</ul>
+	<section>
 	  <%= link_to "Einstellungen", edit_user_path(@user), class: "btn" if identic_or_admin? %>
+	</section>
   </aside>
 </div>

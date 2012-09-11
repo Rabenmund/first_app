@@ -8,9 +8,15 @@
 		<%= user.name %>
 		</h6>
 	</span>
-	<% if current_user.admin? && !current_user?(user) %>
-		<span>
-			<%= link_to "deaktivieren", deactivate_path(user), confirm: "Mitspieler #{(user.name)} wirklich deaktivieren ?", class: "btn btn-warning btn-mini" %>
-		</span>
+	<% if current_user.admin? && !current_user?(user)  %>
+		<% if user.activated? %>
+			<span>
+				<%= link_to "deaktivieren", deactivate_path(user), confirm: "Mitspieler #{(user.name)} wirklich deaktivieren ?", class: "btn btn-warning btn-mini" %>
+			</span>
+		<% else %>
+			<span>
+				<%= link_to "aktivieren", activate_path(user), confirm: "Mitspieler #{(user.name)} wirklich aktivieren ?", class: "btn btn-success btn-mini" %>
+			</span>
+		<% end %>
 	<% end %>
 </section>

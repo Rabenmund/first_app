@@ -20,6 +20,8 @@ describe Season do
   
   describe :associations do
     it { should have_and_belong_to_many(:teams) }
+    it { should have_and_belong_to_many(:users) }
+    it { should have_many(:matchdays) }
   end
   
   describe :validations do
@@ -27,7 +29,7 @@ describe Season do
     it { should validate_presence_of :start_date }
     it { should validate_presence_of :end_date }
   end
-  
+
 end
     
     

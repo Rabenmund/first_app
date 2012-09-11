@@ -36,4 +36,11 @@ FactoryGirl.define do
       end
     end
   end
+  
+  factory :matchday, class: Matchday do
+    sequence(:number)         { |n| n }
+    date                      DateTime.now+1
+    season
+  end
+    
 end

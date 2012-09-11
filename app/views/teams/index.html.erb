@@ -8,28 +8,10 @@
 	<% if @teams.count > 0 %>
 		<div class="row">
 		<aside>
-			<% c = 0%>
 			<% @teams.each do |team| %>
-				<% c = 0 if c > 3%>
-				<% c += 1 %>
-				<%case c%>
-					<%when 1%>
-					<div class="span3">
-						<%= render partial: 'team', locals: { team: team } %>
-					</div>
-					<%when 2%>
-					<div class="span3">
-						<%= render partial: 'team', locals: { team: team } %>
-					</div>
-					<%when 3%>
-					<div class="span3">
-						<%= render partial: 'team', locals: { team: team } %>
-					</div>
-					<%when 4%>
-					<div class="span3">
-						<%= render partial: 'team', locals: { team: team } %>
-					</div>
-				<%end%>
+				<div class="span3">
+					<%= render partial: 'team', locals: { team: team } %>
+				</div>
 	  		<%end%>
 		</aside>
 		</div>

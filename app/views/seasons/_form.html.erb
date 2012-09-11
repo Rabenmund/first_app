@@ -14,6 +14,11 @@
     	<%= f.label :Mannschaften %><br />
     	<%= f.select :team_ids, Team.all.collect { |t| [ t.name, t.id] }, { }, { multiple: true, size: 5 } %>
   	</div>
+
+	<div class="field">
+    	<%= f.label :Mitspieler %><br />
+    	<%= f.select :user_ids, User.all.collect { |u| [ u.name, u.id] }, { }, { multiple: true, size: 10 } %>
+  	</div>
 	
   <%= f.submit "Speichern", class: "btn btn-large btn-primary" %>
 <% end %>
