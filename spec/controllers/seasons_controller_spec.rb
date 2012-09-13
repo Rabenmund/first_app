@@ -8,14 +8,6 @@ describe SeasonsController do
   let(:season) { create :season }
   subject { controller }
   
-  # describe :filter do
-  #   before do
-  #     controller.stub(:authenticate).and_return(true)
-  #     controller.stub(:admin).and_return(true)
-  #     controller.stub(:correct_user).and_return(true)
-  #   end
-  # end
-  
   describe :action do
     
     before do
@@ -57,7 +49,9 @@ describe SeasonsController do
         before { post :create, season: attributes_for(:season) }
         it { should assign_to :season }
         specify { response.should redirect_to Season.last }
+        specify { Season.last.matchdays.count.should eq 34 }
         it { expect { post :create, season: attributes_for(:season) }.to change(Season, :count).by(1)}
+        it { expect { post :create, season: attributes_for(:season) }.to change(Matchday, :count).by(34)}
       end
       describe :invalid do
         before { post :create, season: {} }

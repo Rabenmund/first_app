@@ -18,6 +18,12 @@ class SeasonsController < ApplicationController
   def create
     @season = Season.new(params[:season])
     if @season.save
+      34.times do |n|
+        m = Matchday.new(number: n+1)
+        m.date = @season.next_matchday_date
+        @season.matchdays << m
+        m.save!
+      end
       redirect_to @season
     else
       render 'new'

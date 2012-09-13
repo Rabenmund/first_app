@@ -7,20 +7,36 @@
 	  </h1>
 	  <section>
 		  <h5>
-			<%= @season.start_date.day %>
-			.
-			<%= @season.start_date.month %>
-			.
-			<%= @season.start_date.year %>
-			/  
-			<%= @season.end_date.day %>
-			.
-			<%= @season.end_date.month %>
-			.
-			<%= @season.end_date.year %>		 
+			<%= "#{"%02d" % @season.start_date.day}.#{"%02d" % @season.start_date.month}.#{@season.start_date.year} --- #{"%02d" % @season.end_date.day}.#{"%02d" % @season.end_date.month}.#{@season.end_date.year}"%>	 
 		  </h5>
 		</section>
     </section>
+	<section>
+      <h3>
+        Spieltage ( 
+		<% if @season.next_matchday_number.nil?%>
+			<%= link_to "Übersicht", season_matchdays_path(@season)%>
+		<% else %>
+			<%= link_to "Neuer Spieltag: #{@season.next_matchday_number}", new_season_matchday_path(@season)%>
+		<% end %>
+		 )
+	  </h3>
+    </section>
+	<ul class="matchdays">
+		<% if @season.matchdays.count > 0 %>
+			<div class="row">
+			<aside>
+				<% @season.matchdays.each do |matchday| %>
+					<div class="span1">
+						<%= render partial: 'matchdays/matchday', locals: { matchday: matchday } %>
+					</div>
+		  		<%end%>
+			</aside>
+			</div>
+		<%else%>
+			<h6>Keine Spieltage vorhanden</h6>
+		<%end%>
+	</ul>
 	<section>
       <h3>
         Mannschaften

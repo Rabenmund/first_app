@@ -38,5 +38,6 @@ module ApplicationHelper
   #     else                      "#{(distance_in_minutes / 525600).round} Jahren"  
   #   end  
   # end
+
   
 end

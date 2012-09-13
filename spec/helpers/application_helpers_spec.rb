@@ -13,8 +13,5 @@ describe ApplicationHelper do
       it { should eq "Mein.Programm" } 
     end
   end
-  
-  # describe :distance_of_time_in_words do
-  #   it { distance_of_time_in_words((1)Time.now).should eq 1 }
-  # end
+
 end

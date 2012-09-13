@@ -1,0 +1,21 @@
+<% provide(:title, 'All Matchdays per Season') %>
+<h1>Spieltage pro Saison</h1>
+<div class=center>
+	<%= link_to "Neuen Spieltag erstellen", new_season_matchday_path, class: "btn btn-primary" if current_user.is_admin?%>
+</div>
+<div><br></div>
+<ul class="matchdays">
+	<% if @matchdays.count > 0 %>
+		<div class="row">
+		<aside>
+			<% @matchdays.each do |matchday| %>
+				<div class="span2">
+					<%= render partial: 'matchday', locals: { matchday: matchday } %>
+				</div>
+	  		<%end%>
+		</aside>
+		</div>
+	<%else%>
+		<h6>Keine Spieltage vorhanden</h6>
+	<%end%>
+</ul>

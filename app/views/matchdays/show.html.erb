@@ -1,0 +1,48 @@
+<% provide(:title, @matchday.number) %>
+<div class="row">
+  <aside>
+    <section>
+      <h1>
+        <%= "#{@matchday.number} (##{@matchday.id})" %>
+	  </h1>
+	  <section>
+		  <h5>
+			<%= "#{@matchday.has_wday_humanize}, #{"%02d" % @matchday.date.day}.#{"%02d" % @matchday.date.month}.#{@matchday.date.year}, #{"%02d" % @matchday.date.hour}:#{"%02d" % @matchday.date.min}" %>
+		  </h5>
+		</section>
+    </section>
+	<section>
+		<%= button_to("Nachfolgende Spieltage ansetzen", { action: :in_row, id: @matchday.id},  method: :put, :confirm => 'Sicher, dass du alle nachfolgenden Spieltage neu ansetzen willst?', class: "btn btn-small btn-danger") %>
+	</section>
+	<section>
+      <h3>
+        Saison
+	  </h3>
+    </section>
+	<ul class="season">
+		<% if @matchday.season %>
+			<div class="row">
+			<aside>
+				<div class="span3">
+					<%= render partial: 'seasons/season', locals: { season: @matchday.season } %>
+				</div>
+			</aside>
+			</div>
+		<%else%>
+			<h6>Keine Saison vorhanden</h6>
+		<%end%>
+	</ul>
+	<section>
+      <h3>
+        Spiele fehlen noch
+	  </h3>
+    </section>
+	<section>
+	  <%= link_to "Einstellungen", edit_season_matchday_path(@matchday.season, @matchday), class: "btn" if current_user.is_admin? %>
+	</section>
+    <section>
+		  	<%= link_to "<- Vorheriger Spieltag", season_matchday_path(@matchday.season, @matchday.season.matchdays.find_by_number(@matchday.number - 1)), class: "btn btn-success" if @matchday.season.matchdays.find_by_number(@matchday.number - 1) %>
+	  		<%= link_to "Nächster Spieltag ->", season_matchday_path(@matchday.season, @matchday.season.matchdays.find_by_number(@matchday.number + 1)), class: "btn btn-success" if @matchday.season.matchdays.find_by_number(@matchday.number + 1) %>
+	</section>
+  </aside>
+</div>

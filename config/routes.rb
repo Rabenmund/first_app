@@ -1,26 +1,37 @@
 BasicApp::Application.routes.draw do
-  resources :users #, except: [:destroy]
+  root to: 'static_pages#home'
   
+  # users
+  resources :users #, except: [:destroy]
   get '/signup',          to: 'users#new'
   get '/activate/:id',    to: 'users#activate',         as: :activate
   get '/deactivate/:id',  to: 'users#deactivate',       as: :deactivate
   
+  # sessions
   resources :sessions, only: [:new, :create, :destroy]
   get '/signin',          to: 'sessions#new'
   
+  # microposts
   resources :microposts, only: [:create, :destroy]
-
-  root to: 'static_pages#home'
   
+  # static_pages
   get '/help',            to: 'static_pages#help'
   get '/about',           to: 'static_pages#about'
   get '/contact',         to: 'static_pages#contact'
-  
   get '/landing',         to: 'static_pages#landing'
   get '/home',            to: 'static_pages#home'
   
+  # teams
   resources :teams
-  resources :seasons
+  
+  # seasons
+  resources :seasons do
+    resources :matchdays do
+      member do
+        put 'in_row'
+      end
+    end
+  end
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

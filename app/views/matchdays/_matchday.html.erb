@@ -1,0 +1,11 @@
+<section>
+	<span>
+		<h4>
+			<%= link_to matchday.number, season_matchday_path(matchday.season, matchday) %>
+		</h4>
+		<h5>
+			<%= matchday.has_wday_humanize %>
+			<%= "#{matchday.date.day}.#{matchday.date.month}.#{matchday.date.year}"%>
+		</h5>
+	</span>
+</section>

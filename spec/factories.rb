@@ -21,8 +21,8 @@ FactoryGirl.define do
   
   factory :season, class: Season do
     sequence(:name)           { |n| "TestName#{n}"}
-    start_date                DateTime.now-1
-    end_date                  DateTime.now+1
+    start_date                DateTime.now-1.day
+    end_date                  DateTime.now+1.year
     factory :season_and_team do
       after :build do |season|
         team = create :team
@@ -39,7 +39,7 @@ FactoryGirl.define do
   
   factory :matchday, class: Matchday do
     sequence(:number)         { |n| n }
-    date                      DateTime.now+1
+    date                      DateTime.now
     season
   end
     

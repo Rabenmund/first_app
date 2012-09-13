@@ -1,0 +1,64 @@
+#!/bin/env ruby
+# encoding: utf-8
+
+class MatchdaysController < ApplicationController
+
+  skip_filter   :authenticate,    only: []
+  skip_filter   :admin,           only: []
+  skip_filter   :correct_user
+  before_filter :load_season
+  before_filter :load_matchday, only: [:edit, :update, :destroy]
+
+  def new
+    @matchday = @season.matchdays.build(number: @season.next_matchday_number, date: @season.next_matchday_date)
+  end
+  
+  def index
+    @matchdays = @season.matchdays
+  end
+
+  def create
+    @matchday = @season.matchdays.build(params[:matchday])
+    if @matchday.save
+      redirect_to @season
+    else
+      render 'new'
+    end
+  end
+  
+  def edit
+  end
+  
+#  def destroy
+#  end
+  
+  def update
+    if @matchday.update_attributes(params[:matchday])
+      flash[:success] = "Einstellungen geändert."
+      render :show
+    else
+      flash[:error] = "Einstellungen konnten nicht geändert werden."
+      render :edit
+    end
+  end
+  
+  def show
+    @matchday = Matchday.find(params[:id])
+  end
+  
+  def in_row
+    matchday = Matchday.find(params[:id])
+    matchday.season.put_all_in_sat_row!(matchday)
+    redirect_to @season
+  end
+  
+  private
+
+  def load_season
+    @season = Season.find(params[:season_id])
+  end
+
+  def load_matchday
+    @matchday = @season.matchdays.find(params[:id])
+  end
+end

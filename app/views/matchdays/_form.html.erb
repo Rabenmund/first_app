@@ -1,0 +1,11 @@
+<%= form_for([@season, @matchday]) do |f| %>
+<%= render 'shared/error_messages', object: f.object %>
+
+	<%= f.label :Nummer %>
+	<%= f.number_field :number %>
+	
+	<%= f.label :Datum %>
+	<%= f.datetime_select :date %>
+	
+  <%= f.submit "Speichern", class: "btn btn-large btn-primary" %>
+<% end %>
