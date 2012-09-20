@@ -10,7 +10,7 @@ class MatchdaysController < ApplicationController
   before_filter :load_matchday, only: [:edit, :update, :destroy]
 
   def new
-    @matchday = @season.matchdays.build(number: @season.next_matchday_number, date: @season.next_matchday_date)
+    @matchday = @season.matchdays.build(number: @season.next_matchday_number, date: @season.next_matchday_date, arrange_dates: false)
   end
   
   def index
@@ -33,6 +33,7 @@ class MatchdaysController < ApplicationController
 #  end
   
   def update
+    @season.put_all_in_fri_row!(@matchday) if params[:matchday][:arrange_dates] == "1"
     if @matchday.update_attributes(params[:matchday])
       flash[:success] = "Einstellungen geändert."
       render :show
@@ -48,7 +49,7 @@ class MatchdaysController < ApplicationController
   
   def in_row
     matchday = Matchday.find(params[:id])
-    matchday.season.put_all_in_sat_row!(matchday)
+    matchday.season.put_all_in_fri_row!(matchday)
     redirect_to @season
   end
   

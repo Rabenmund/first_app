@@ -22,6 +22,7 @@ describe Season do
     it { should have_and_belong_to_many(:teams) }
     it { should have_and_belong_to_many(:users) }
     it { should have_many(:matchdays) }
+    it { should have_many(:games) }
   end
   
   describe :validations do
@@ -90,10 +91,10 @@ describe Season do
       end
     end
     
-    describe :put_all_in_sat_row! do
+    describe :put_all_in_fri_row! do
       describe :no_more_matchdays do
         before { @matchday = create :matchday }
-        subject { @matchday.season.put_all_in_sat_row!(@matchday) }
+        subject { @matchday.season.put_all_in_fri_row!(@matchday) }
         it { should eq [] }
       end
       describe :full_number_of_matchdays do
@@ -103,7 +104,7 @@ describe Season do
           33.times do |n|
             matchday = create :matchday, number: (n+2), season: @season
           end
-          @season.put_all_in_sat_row!(@matchday)
+          @season.put_all_in_fri_row!(@matchday)
         end
         specify { @season.matchdays.find_by_number(3).date.should eq @season.matchdays.find_by_number(2).date + 7.days }
         specify { @season.matchdays.find_by_number(34).date.wday.should eq 5 }

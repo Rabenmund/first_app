@@ -9,6 +9,7 @@ class Season < ActiveRecord::Base
   has_and_belongs_to_many :users
   has_and_belongs_to_many :teams
   has_many :matchdays, dependent: :destroy, order: :number
+  has_many :games, through: :matchdays
   
   def next_matchday_number
     if matchdays.count > 0
@@ -30,7 +31,7 @@ class Season < ActiveRecord::Base
     end
   end
   
-  def put_all_in_sat_row!(matchday)
+  def put_all_in_fri_row!(matchday)
     date = matchday.date
     matchdays.where('matchdays.number > ?', matchday.number).each do |m|
       new_date = go_friday_with date

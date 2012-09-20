@@ -16,6 +16,8 @@ describe Team do
   
   describe :associations do
     it { should have_and_belong_to_many :seasons }
+    it { should have_many :home_games }
+    it { should have_many :guest_games }
   end
   
   describe :validations do
@@ -33,6 +35,22 @@ describe Team do
   end
   
   describe :methods do
+    
+    describe :games do
+      let(:g) { create :game } 
+      it { g.home.games.should eq [g] }  
+      it { g.guest.games.should eq [g] }   
+    end 
+    
+    describe :games_per_season do
+      before do
+        @g1 = create :game
+        @g2 = create :game, home: @g1.home, guest: @g1.guest 
+      end
+      it { @g1.home.games.should eq [@g1, @g2] }
+      it { @g1.home.games_per_season(@g1.season).should eq [@g1] }
+      it { @g1.home.games_per_season(@g2.season).should eq [@g2] }
+    end
   end
   
 end

@@ -21,6 +21,7 @@ describe Matchday do
   
   describe :associations do
     it { should belong_to :season }
+    it { should have_many :games }
   end
   
   describe :validations do
@@ -124,6 +125,17 @@ describe Matchday do
         end
       end
     end
+    
+    describe :teams do
+      before do
+        matchday.save
+        @g1 = create :game, matchday: matchday
+        @g2 = create :game, matchday: matchday
+      end
+      subject { matchday.teams }
+      it { should eq [@g1.home, @g1.guest, @g2.home, @g2.guest]}
+    end
+    
   end
   
 end

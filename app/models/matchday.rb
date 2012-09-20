@@ -2,13 +2,16 @@
 # encoding: utf-8
 
 class Matchday < ActiveRecord::Base
-  attr_accessible :date, :number, :season_id
+  attr_accessible :date, :number, :season_id, :arrange_dates
   
-  belongs_to :season
+  attr_accessor :arrange_dates
   
+  belongs_to  :season
+  has_many    :games
+   
   validates :number, presence: true, numericality: true
   validates :date, presence: true
-  validate  :date_in_date_range
+  validate  :date_in_date_range 
   validate  :date_in_order
   
   def is_wday?(d)
@@ -34,6 +37,21 @@ class Matchday < ActiveRecord::Base
     end
   end
   
+  def arrange_dates?
+    arrange_dates == "1"
+  end
+  
+  def teams
+    all = []
+    games.each { |g| all |= g.teams }
+    all
+  end
+  
+  # falsch - nimmt
+  # def teams
+  #   Team.joins('INNER JOIN games ON (home_id = teams.id OR guest_id = teams.id)').uniq
+  # end
+  
   private
   
   def date_in_date_range
@@ -46,6 +64,7 @@ class Matchday < ActiveRecord::Base
   end
 
   def date_in_order
+    return if arrange_dates?
     if date
       matchdays_before = season.matchdays.where("matchdays.number < ?", number)
       matchdays_before.each do |m|

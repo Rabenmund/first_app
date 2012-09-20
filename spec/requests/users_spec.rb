@@ -58,7 +58,6 @@ describe "Static pages" do
   
   describe :edit do
     before { visit edit_user_path(user) }
-    it { should_not have_content("Name")}
     describe "user edits himself" do
       before do
         fill_in "user_nickname", with: "New Nickname"

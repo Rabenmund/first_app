@@ -1,8 +1,11 @@
 <%= form_for([@season, @matchday]) do |f| %>
-<%= render 'shared/error_messages', object: f.object %>
+	<%= render 'shared/error_messages', object: f.object %>
 
 	<%= f.label :Nummer %>
 	<%= f.number_field :number %>
+	
+	<%= "Alle Spieltage neu ausrichten " %>
+	<%= f.check_box :arrange_dates %>
 	
 	<%= f.label :Datum %>
 	<%= f.datetime_select :date %>
