@@ -4,7 +4,7 @@ class Season < ActiveRecord::Base
   validates :name, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
-  validate :start_before_end_date
+  validate  :start_before_end_date
   
   has_and_belongs_to_many :users
   has_and_belongs_to_many :teams

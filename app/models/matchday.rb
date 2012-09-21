@@ -41,9 +41,9 @@ class Matchday < ActiveRecord::Base
     arrange_dates == "1"
   end
   
-  def teams
+  def teams(minusgame=nil)
     all = []
-    games.each { |g| all |= g.teams }
+    games.each { |g| all |= g.teams unless g == minusgame }
     all
   end
   

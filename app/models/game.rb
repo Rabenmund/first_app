@@ -14,9 +14,9 @@ class Game < ActiveRecord::Base
   validates :matchday_id, presence: true
   validates :date,        presence: true
   
-#  validate  :home_associated_to_season
-#  validate  :guest_associated_to_season
-#  validate  :date_in_seasons_range
+  validate  :home_associated_to_season
+  validate  :guest_associated_to_season
+  validate  :date_in_seasons_range
 #  validate  :home_not_used_in_matchday
 #  validate  :guest_not_used_in_matchday
 #  validate  :game_not_used_in_season
@@ -33,11 +33,11 @@ class Game < ActiveRecord::Base
   end
   
   def home_not_used_in_matchday
-    !team_used_in_matchday?(home, :Heim)
+    team_used_in_matchday?(home, :Heim)
   end
   
   def guest_not_used_in_matchday
-    !team_used_in_matchday?(guest, :Gast)
+    team_used_in_matchday?(guest, :Gast)
   end
   
   def home_associated_to_season
@@ -50,7 +50,7 @@ class Game < ActiveRecord::Base
   
   def team_used_in_matchday?(team, sym)
     return false unless matchday && home && guest
-    if (matchday.teams.include?(team))
+    if (matchday.teams(self).include?(team))
       errors.add(sym, "#{team.name} wird bereits in einem anderen Spiel des Spieltages verwendet")
       return false
     end

@@ -43,20 +43,20 @@ describe Game do
     
     describe "should have a home team associated to season" do
       describe :true do
-        specify { game.matchday.season.teams.should include game.home }
+        specify { game.season.teams.should include game.home }
       end
       describe :false do
-        before { game.matchday.season.teams.delete(game.home)}
+        before { game.season.teams.delete(game.home)}
         it { should_not be_valid }
         specify { expect{game.save!}.to raise_error(/gehört nicht zur Saison/)}
       end
     end
     describe "should have a guest team associated to season" do
       describe :true do
-        specify { game.matchday.season.teams.should include game.guest }
+        specify { game.season.teams.should include game.guest }
       end
       describe :false do
-        before { game.matchday.season.teams.delete(game.guest)}
+        before { game.season.teams.delete(game.guest)}
         it { should_not be_valid }
         specify { expect{game.save!}.to raise_error(/gehört nicht zur Saison/)}
       end
@@ -66,60 +66,60 @@ describe Game do
         it { should be_valid }
       end
       describe :false do
-        before { game.update_attribute("date", DateTime.now + 2.years)}
+        before { game.update_attribute("date", DateTime.now - 10.years)}
         it { should_not be_valid }
         specify { expect { game.save! }.to raise_error (/liegt nicht im Datumsbereich der Saison/)}
       end
     end
-    describe :home_not_used_in_matchday do
-      before { game.save! }
-      describe :true do
-        before { @game2 = build :game, matchday: game.matchday }
-        it { @game2.should be_valid }
-      end
-      describe :false do
-        before { @game2 = build :game, matchday: game.matchday, home: game.home }
-        it { should_not be_valid }
-        specify { expect { @game2.save! }.to raise_error (/wird bereits in einem anderen Spiel des Spieltages verwendet/)}
-      end
-    end
-    describe :guest_not_used_in_matchday do
-      before { game.save! }
-      describe :true_different_teams do
-        before { @game2 = build :game, matchday: game.matchday }
-        it { @game2.should be_valid }
-      end
-      describe :true_different_matchday do
-        before { @game2 = build :game, home: game.home, guest: game.guest }
-        it { @game2.should be_valid }
-      end
-      describe :false do
-        before { @game2 = build :game, matchday: game.matchday, guest: game.home }
-        it { @game2.should_not be_valid }
-        specify { expect { @game2.save! }.to raise_error (/wird bereits in einem anderen Spiel des Spieltages verwendet/)}
-      end
-    end
-    describe :game_not_used_in_season do
-      before do 
-        game.save!
-        @matchday2 = create :matchday, season: matchday.season
-      end
-      describe :true_different_game do
-        before { @game2 = build :game, matchday: game.matchday }
-        specify { @game2.matchday.season.should eq game.matchday.season}
-        it { @game2.should be_valid }
-      end
-      describe :true_different_season do
-        before { @game2 = build :game, home: game.home, guest: game.guest }
-        specify { @game2.matchday.season.should_not eq game.matchday.season}
-        it { @game2.should be_valid }
-      end
-      describe :false do
-        before { @game2 = build :game, matchday: @matchday2, home: game.home, guest: game.home }
-        it { @game2.should_not be_valid }
-        specify { expect { @game2.save! }.to raise_error (/existiert bereits an einem anderen Spieltag der Saison: /)}
-      end
-    end
+    # describe :home_not_used_in_matchday do
+    #   before { game.save! }
+    #   describe :true do
+    #     before { @game2 = build :game, matchday: game.matchday }
+    #     it { @game2.should be_valid }
+    #   end
+    #   describe :false do
+    #     before { @game2 = build :game, matchday: game.matchday, home: game.home }
+    #     it { should_not be_valid }
+    #     specify { expect { @game2.save! }.to raise_error (/wird bereits in einem anderen Spiel des Spieltages verwendet/)}
+    #   end
+    # end
+    # describe :guest_not_used_in_matchday do
+    #   before { game.save! }
+    #   describe :true_different_teams do
+    #     before { @game2 = build :game, matchday: game.matchday }
+    #     it { @game2.should be_valid }
+    #   end
+    #   describe :true_different_matchday do
+    #     before { @game2 = build :game, home: game.home, guest: game.guest }
+    #     it { @game2.should be_valid }
+    #   end
+    #   describe :false do
+    #     before { @game2 = build :game, matchday: game.matchday, guest: game.home }
+    #     it { @game2.should_not be_valid }
+    #     specify { expect { @game2.save! }.to raise_error (/wird bereits in einem anderen Spiel des Spieltages verwendet/)}
+    #   end
+    # end
+    # describe :game_not_used_in_season do
+    #   before do 
+    #     game.save!
+    #     @matchday2 = create :matchday, season: matchday.season
+    #   end
+    #   describe :true_different_game do
+    #     before { @game2 = build :game, matchday: game.matchday }
+    #     specify { @game2.matchday.season.should eq game.matchday.season}
+    #     it { @game2.should be_valid }
+    #   end
+    #   describe :true_different_season do
+    #     before { @game2 = build :game, home: game.home, guest: game.guest }
+    #     specify { @game2.matchday.season.should_not eq game.matchday.season}
+    #     it { @game2.should be_valid }
+    #   end
+    #   describe :false do
+    #     before { @game2 = build :game, matchday: @matchday2, home: game.home, guest: game.home }
+    #     it { @game2.should_not be_valid }
+    #     specify { expect { @game2.save! }.to raise_error (/existiert bereits an einem anderen Spieltag der Saison: /)}
+    #   end
+    # end
   end
   
   describe :methods do

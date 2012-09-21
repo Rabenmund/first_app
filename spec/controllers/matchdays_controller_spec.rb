@@ -107,6 +107,7 @@ describe MatchdaysController do
       describe :valid do
         before { put :update, season_id: @matchday.season.id, id: @matchday.id, matchday: attributes_for(:matchday).merge(number: 2)  }
         it { should set_the_flash.to "Einstellungen geändert." }
+        it { puts @matchday.errors.inspect }
         specify { response.should render_template "show"}
       end
       describe :invalid do
