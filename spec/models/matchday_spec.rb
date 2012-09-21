@@ -5,7 +5,8 @@ require 'spec_helper'
 
 describe Matchday do
 
-  let(:matchday) { build :matchday }
+  let(:season)   { create :season }
+  let(:matchday) { build :matchday, season: season }
   subject { matchday }
 
   describe :attributes do
@@ -21,7 +22,7 @@ describe Matchday do
   
   describe :associations do
     it { should belong_to :season }
-    it { should have_many :games }
+#    it { should have_many :games }
   end
   
   describe :validations do
@@ -113,7 +114,7 @@ describe Matchday do
     describe :has_wday_humanize do
       describe :all_days do
         before do
-          @matchday = create :matchday
+          @matchday = create :matchday, season: season
           @matchday.date="9.9.2012"
         end
         specify do
@@ -128,11 +129,12 @@ describe Matchday do
     
     describe :teams do
       before do
-        matchday.save
-        @g1 = create :game, matchday: matchday
-        @g2 = create :game, matchday: matchday
+        @matchday = create :matchday, season: season
+        @g1 = create :game, matchday: @matchday
+        @g2 = create :game, matchday: @matchday
       end
-      subject { matchday.teams }
+      it { @matchday.games.should eq [@g1, @g2]}
+      subject { @matchday.teams }
       it { should eq [@g1.home, @g1.guest, @g2.home, @g2.guest]}
     end
     

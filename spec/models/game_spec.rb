@@ -72,14 +72,16 @@ describe Game do
       end
     end
     # describe :home_not_used_in_matchday do
-    #   before { game.save! }
+    #   before do
+    #     @game = create :game
+    #   end
     #   describe :true do
-    #     before { @game2 = build :game, matchday: game.matchday }
+    #     before { @game2 = build :game, matchday: @game.matchday }
     #     it { @game2.should be_valid }
     #   end
     #   describe :false do
-    #     before { @game2 = build :game, matchday: game.matchday, home: game.home }
-    #     it { should_not be_valid }
+    #     before { @game2 = build :game, matchday: @game.matchday, home: @game.home }
+    #     it { @game2.should_not be_valid }
     #     specify { expect { @game2.save! }.to raise_error (/wird bereits in einem anderen Spiel des Spieltages verwendet/)}
     #   end
     # end

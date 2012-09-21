@@ -17,23 +17,19 @@ class Game < ActiveRecord::Base
   validate  :home_associated_to_season
   validate  :guest_associated_to_season
   validate  :date_in_seasons_range
-#  validate  :home_not_used_in_matchday
-#  validate  :guest_not_used_in_matchday
-#  validate  :game_not_used_in_season
-  
   
   def teams
-    [home] | [guest]
+    return [home, guest]
   end
   
   private
   
   def game_not_used_in_season
-#    season.games.where(home_id: home.id, guest_id: guest.id).empty?
+    season.games.where(home_id: home.id, guest_id: guest.id).empty?
   end
   
   def home_not_used_in_matchday
-    team_used_in_matchday?(home, :Heim)
+    team_used_in_matchday?(home, :home)
   end
   
   def guest_not_used_in_matchday
@@ -46,15 +42,6 @@ class Game < ActiveRecord::Base
   
   def guest_associated_to_season
     team_associated_to_season?(guest, :Gast)
-  end
-  
-  def team_used_in_matchday?(team, sym)
-    return false unless matchday && home && guest
-    if (matchday.teams(self).include?(team))
-      errors.add(sym, "#{team.name} wird bereits in einem anderen Spiel des Spieltages verwendet")
-      return false
-    end
-    return true
   end
   
   def date_in_seasons_range

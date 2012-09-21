@@ -41,16 +41,14 @@ class Matchday < ActiveRecord::Base
     arrange_dates == "1"
   end
   
-  def teams(minusgame=nil)
-    all = []
-    games.each { |g| all |= g.teams unless g == minusgame }
-    all
+  def teams
+    res = []
+    self.games.each do |g| 
+        res << g.home
+        res << g.guest
+    end
+    return res
   end
-  
-  # falsch - nimmt
-  # def teams
-  #   Team.joins('INNER JOIN games ON (home_id = teams.id OR guest_id = teams.id)').uniq
-  # end
   
   private
   

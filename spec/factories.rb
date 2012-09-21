@@ -39,7 +39,7 @@ FactoryGirl.define do
       after :build do |season|
         10.times { user = create :user; season.users << user }
         18.times { team = create :team; season.teams << team }
-        34.times { |i| md = create :matchday, season: season, date: DateTime.now+1.day+i.day; }
+        34.times { |i| md = create :matchday, season: season, date: DateTime.now+1.day+i.day, number: i }
       end
       after :create do |season|
         season.matchdays.each do |md|
@@ -50,7 +50,7 @@ FactoryGirl.define do
   end
   
   factory :matchday, class: Matchday do
-    sequence(:number)         { |n| n }
+    number                    1
     date                      DateTime.now
     season
   end
