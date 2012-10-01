@@ -22,6 +22,25 @@ class Game < ActiveRecord::Base
     return [home, guest]
   end
   
+  def has_wday_humanize
+    case date.wday
+    when 1
+      "Montag"
+    when 2 
+      "Dienstag"
+    when 3 
+      "Mittwoch"
+    when 4 
+      "Donnerstag"
+    when 5 
+      "Freitag"
+    when 6 
+      "Samstag"
+    when 0 
+      "Sonntag"
+    end
+  end
+  
   private
   
   def game_not_used_in_season

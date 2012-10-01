@@ -1,0 +1,11 @@
+<section>
+	<span>
+		<h4>
+			<%= link_to "#{game.home.name} - #{game.guest.name}", season_matchday_game_path(game.season, game.matchday, game) %>
+		</h4>
+		<h5>
+			<%= game.has_wday_humanize %>
+			<%= "#{game.date.day}.#{game.date.month}.#{game.date.year}"%>
+		</h5>
+	</span>
+</section>

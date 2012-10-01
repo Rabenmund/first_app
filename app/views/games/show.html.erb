@@ -1,0 +1,19 @@
+<% provide(:title, @game.id) %>
+<div class="row">
+  <aside>
+    <section>
+      <h1>
+		<%= "Saison: "%><br>
+		<%= link_to "#{@season.name}", season_path(@season) %>
+		<br>
+		<%= "Spieltag: "%><br>
+		<%= link_to "#{@matchday.number} (#{@matchday.has_wday_humanize}, #{@matchday.date.day}.#{@matchday.date.month}.#{@matchday.date.year})", season_matchday_path(@season, @matchday) %><br><br>
+        <%= "#{@game.home.name} - #{@game.guest.name}"%><br>
+		<%=	" (#{@game.has_wday_humanize}, #{@game.date.day}.#{@game.date.month}.#{@game.date.year})" %>
+	  </h1>
+    </section>
+	<section>
+	  <%= link_to "Einstellungen", edit_season_matchday_game_path(@season, @matchday, @game), class: "btn" if current_user.is_admin? %>
+	</section>
+  </aside>
+</div>

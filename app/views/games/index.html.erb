@@ -1,0 +1,22 @@
+<% provide(:title, 'All games') %>
+<h1>Spiele</h1>
+<div class=center>
+	<%= link_to "Neues Spiel erstellen", new_season_matchday_game_path, class: "btn btn-primary" if current_user.is_admin? && @matchday.games.count < 9 %>
+</div>
+<div><br></div>
+<ul class="games">
+	<% if @games.count > 0 %>
+		<div class="row">
+		<aside>
+			<% @games.each do |game| %>
+				<div class=center>
+					<%= render partial: 'game', locals: { game: game } %>
+				</div>
+	  		<%end%>
+		</aside>
+		</div>
+	<%else%>
+		<h6>Keine Spiele vorhanden</h6>
+	<%end%>
+</ul>
+<%= link_to "Spieltag", season_matchday_path(@matchday.season, @matchday), class: "btn" if current_user.is_admin? %>

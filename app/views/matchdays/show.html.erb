@@ -34,9 +34,25 @@
 	</ul>
 	<section>
       <h3>
-        Spiele fehlen noch
+        <%= link_to "Spiele", season_matchday_games_path(@matchday.season, @matchday) %>
 	  </h3>
     </section>
+	<ul class="games">
+		<% if @matchday.games.count > 0 %>
+			<div class="row">
+			<aside>
+				<% @matchday.games.each do |game| %>
+					<div>
+						<%= render partial: 'games/game', locals: { game: game } %>
+					</div>
+		  		<%end%>
+			</aside>
+			</div>
+		<%else%>
+			<h6>Keine Spiele vorhanden</h6>
+		<%end%>
+	</ul>
+	<%= link_to "Neues Spiel", new_season_matchday_game_path(@matchday.season, @matchday), class: "btn btn-success" if current_user.is_admin? && @matchday.games.count < 9 %>
 	<section>
 	  <%= link_to "Einstellungen", edit_season_matchday_path(@matchday.season, @matchday), class: "btn" if current_user.is_admin? %>
 	</section>

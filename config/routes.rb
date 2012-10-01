@@ -30,6 +30,7 @@ BasicApp::Application.routes.draw do
       member do
         put 'in_row'
       end
+      resources :games 
     end
   end
 
