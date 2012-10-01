@@ -22,8 +22,10 @@ class GamesController < ApplicationController
   def create
     @game = @matchday.games.new(params[:game])
     if @game.save
+      flash[:success] = "Spiel wurde erstellt."
       redirect_to season_matchday_game_path(@season, @matchday, @game)
     else
+      flash[:error] = "Neues Spiel konnte nicht erstellt werden."
       render 'new'
     end
   end
@@ -32,6 +34,7 @@ class GamesController < ApplicationController
   end
   
   def destroy
+    game = Game.find(params[:id])
     if game.destroy
       flash[:success] = "#{game.id} wurde gelöscht."
     else

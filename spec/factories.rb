@@ -50,19 +50,19 @@ FactoryGirl.define do
   end
   
   factory :matchday, class: Matchday do
-    number                    1
+    sequence(:number)         { |n| n }
     date                      DateTime.now
     season
   end
   
   factory :game, class: Game do
     date                      DateTime.now
-    home                      { create :team }
-    guest                     { create :team }
+    home_id                   { team = create :team; team.id }
+    guest_id                  { team = create :team; team.id }
     matchday                  
     after :build do |game|
-      game.matchday.season.teams << game.home
-      game.matchday.season.teams << game.guest
+      game.matchday.season.teams << game.home #unless game.matchday.season.teams.includes(game.home)
+      game.matchday.season.teams << game.guest #unless game.matchday.season.teams.includes(game.guest)
     end
   end
     
