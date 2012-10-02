@@ -55,6 +55,7 @@ class Game < ActiveRecord::Base
   end
   
   def home_unique_at_matchday
+    return false unless matchday
     matchday.games.each do |g| 
       if (g.home == home or g.guest == home) && g != self
         errors.add(:Heim, "wird bereits an dem Spieltag verwendet")
@@ -64,6 +65,7 @@ class Game < ActiveRecord::Base
   end
   
   def guest_unique_at_matchday
+    return false unless matchday
     matchday.games.each do |g| 
       if (g.home == guest or g.guest == guest) && g != self
         errors.add(:Gast, "wird bereits an dem Spieltag verwendet")
@@ -73,7 +75,8 @@ class Game < ActiveRecord::Base
   end
   
   def game_not_used_in_season
-    season.games.where(home_id: home.id, guest_id: guest.id).empty?
+#    season.games.where(home_id: home.id, guest_id: guest.id).empty?
+    
   end
   
   def home_associated_to_season

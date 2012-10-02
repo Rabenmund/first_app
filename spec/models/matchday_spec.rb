@@ -100,6 +100,11 @@ describe Matchday do
   
   describe :methods do
     
+    before do
+      Game.any_instance.stub(:home_unique_at_matchday).and_return(true)
+      Game.any_instance.stub(:guest_unique_at_matchday).and_return(true)
+    end
+    
     describe :is_wday? do
       describe :true do
         before { matchday.date="8.9.2012" }
