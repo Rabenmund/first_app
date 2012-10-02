@@ -27,7 +27,7 @@ describe Matchday do
   
   describe :validations do
     it { should validate_presence_of :number }
-    it { should validate_numericality_of :number }
+    it { should validate_numericality_of :number }    
     it { should validate_presence_of :date }
     
     describe :date_in_date_range do
