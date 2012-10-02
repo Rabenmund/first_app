@@ -46,8 +46,8 @@ class Matchday < ActiveRecord::Base
   def teams
     res = []
     self.games.each do |g| 
-        res << g.home
-        res << g.guest
+      res << g.home
+      res << g.guest
     end
     return res
   end

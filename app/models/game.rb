@@ -18,7 +18,10 @@ class Game < ActiveRecord::Base
   validate  :guest_associated_to_season
   validate  :date_in_seasons_range
   validate  :game_count
-    
+  validate  :home_unique_at_matchday
+  validate  :guest_unique_at_matchday
+  validate  :home_not_guest
+  
   def teams
     return [home, guest]
   end
@@ -43,6 +46,31 @@ class Game < ActiveRecord::Base
   end
   
   private
+  
+  def home_not_guest
+    if home_id == guest_id
+      errors.add(:Heim, "darf nicht gleich Gast sein.")
+      return false
+    end
+  end
+  
+  def home_unique_at_matchday
+    matchday.games.each do |g| 
+      if (g.home == home or g.guest == home) && g != self
+        errors.add(:Heim, "wird bereits an dem Spieltag verwendet")
+        return false
+      end
+    end
+  end
+  
+  def guest_unique_at_matchday
+    matchday.games.each do |g| 
+      if (g.home == guest or g.guest == guest) && g != self
+        errors.add(:Gast, "wird bereits an dem Spieltag verwendet")
+        return false
+      end
+    end
+  end
   
   def game_not_used_in_season
     season.games.where(home_id: home.id, guest_id: guest.id).empty?
