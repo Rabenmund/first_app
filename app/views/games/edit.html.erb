@@ -1,3 +1,4 @@
 <% provide(:title, "Edit game") %> 
 <h1>Einstellungen ändern</h1>
-<%= render partial: "form" %>
+<% %>
+<%= render partial: "form", locals: { free_teams: @matchday.free_teams << @game.home << @game.guest } %>

@@ -6,12 +6,12 @@
 		
 	<div class="field">
     	<%= f.label :Heim %><br />
-    	<%= f.select :home_id, Team.all.collect { |t| [ t.name, t.id] }, { }, { multiple: false, size: 5 } %>
+    	<%= f.select :home_id, free_teams.collect { |t| [ t.name, t.id] }, { }, { multiple: false, size: 5 } %>
   	</div>
 
 	<div class="field">
     	<%= f.label :Gast %><br />
-    	<%= f.select :guest_id, @season.teams.collect { |t| [ t.name, t.id] }, { }, { multiple: false, size: 5 } %>
+    	<%= f.select :guest_id, free_teams.collect { |t| [ t.name, t.id] }, { }, { multiple: false, size: 5 } %>
   	</div>
 	
   <%= f.submit "Speichern", class: "btn btn-large btn-primary" %>
