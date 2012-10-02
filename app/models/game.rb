@@ -17,6 +17,7 @@ class Game < ActiveRecord::Base
   validate  :home_associated_to_season
   validate  :guest_associated_to_season
   validate  :date_in_seasons_range
+  validate  :game_count
   
   def teams
     return [home, guest]
@@ -77,6 +78,14 @@ class Game < ActiveRecord::Base
       return false
     end
     return true
+  end
+  
+  def game_count
+    return false unless (!matchday.nil? && !home.nil? && !guest.nil?)
+    if self.matchday.games.count >= 9
+      errors.add(:Spiel, "kann nicht erstellt werden. Spieltag #{matchday.id} hat bereits 9 Spiele")
+      return false
+    end
   end
   
 end

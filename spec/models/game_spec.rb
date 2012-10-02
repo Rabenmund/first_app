@@ -71,6 +71,25 @@ describe Game do
         specify { expect { game.save! }.to raise_error (/liegt nicht im Datumsbereich der Saison/)}
       end
     end
+    
+    describe :game_count do
+      let(:matchday) { create :matchday }
+      describe "lower than 9 games threshold" do
+        before do
+          matchday.games.stub(:count).and_return(8)
+          @game = create :game, matchday: matchday
+        end
+        it { should be_valid }
+      end
+      describe "9 games or more" do
+        before do
+          matchday.games.stub(:count).and_return(9)
+          @game = build :game, matchday: matchday
+        end
+        specify { expect { @game.save! }.to raise_error (/hat bereits 9 Spiele/)}
+      end
+    end
+    
     # describe :home_not_used_in_matchday do
     #   before do
     #     @game = create :game
