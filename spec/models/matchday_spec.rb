@@ -138,6 +138,29 @@ describe Matchday do
       it { should eq [@g1.home, @g1.guest, @g2.home, @g2.guest]}
     end
     
+    describe :free_teams do
+      let(:matchday) { create :matchday, season: season }
+      let(:game) { create :game, matchday: matchday }
+      let(:team) { create :team }
+
+      describe "with team associated season and not used in matchday" do
+        before { season.teams << team }
+        subject { matchday.free_teams }
+        it { should include team }
+        it { should_not include game.home }
+        it { should_not include game.guest }
+      end
+      describe "with team associated season and used in matchday" do
+        subject { matchday.free_teams }
+        it { should_not include game.home }
+        it { should_not include game.guest }
+      end
+      describe "with team not associated season and not used in matchday" do
+        subject { matchday.free_teams }
+        it { should_not include team }
+      end
+    end
+    
   end
   
 end

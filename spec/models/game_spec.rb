@@ -7,6 +7,7 @@ describe Game do
   
   let(:season)  { create :full_season }
   let(:game)    { build :game }
+  let(:matchday) { game.matchday }
   subject { game }
   
   describe :attributes do

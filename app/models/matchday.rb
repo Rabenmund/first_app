@@ -8,6 +8,8 @@ class Matchday < ActiveRecord::Base
   
   belongs_to  :season
   has_many    :games
+  has_many    :homes, through: :games
+  has_many    :guests, through: :games
    
   validates :number, presence: true, numericality: true
   validates :date, presence: true
@@ -48,6 +50,10 @@ class Matchday < ActiveRecord::Base
         res << g.guest
     end
     return res
+  end
+  
+  def free_teams
+    season.teams - teams
   end
   
   private

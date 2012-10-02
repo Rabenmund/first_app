@@ -18,7 +18,7 @@ class Game < ActiveRecord::Base
   validate  :guest_associated_to_season
   validate  :date_in_seasons_range
   validate  :game_count
-  
+    
   def teams
     return [home, guest]
   end
@@ -46,14 +46,6 @@ class Game < ActiveRecord::Base
   
   def game_not_used_in_season
     season.games.where(home_id: home.id, guest_id: guest.id).empty?
-  end
-  
-  def home_not_used_in_matchday
-    team_used_in_matchday?(home, :home)
-  end
-  
-  def guest_not_used_in_matchday
-    team_used_in_matchday?(guest, :Gast)
   end
   
   def home_associated_to_season

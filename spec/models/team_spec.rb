@@ -51,6 +51,8 @@ describe Team do
       it { @g1.home.games_per_season(@g1.season).should eq [@g1] }
       it { @g1.home.games_per_season(@g2.season).should eq [@g2] }
     end
+  
+
   end
   
 end
