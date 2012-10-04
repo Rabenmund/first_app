@@ -1,4 +1,4 @@
 <% provide(:title, "Edit game") %> 
 <h1>Einstellungen ändern</h1>
-<% %>
+<%= link_to "<- Spieltag", season_matchday_path(@matchday.season, @matchday), class: "btn" if current_user.is_admin? %>
 <%= render partial: "form", locals: { free_teams: @matchday.free_teams << @game.home << @game.guest } %>

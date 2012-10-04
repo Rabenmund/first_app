@@ -7,7 +7,7 @@ class MatchdaysController < ApplicationController
   skip_filter   :admin,           only: []
   skip_filter   :correct_user
   before_filter :load_season
-  before_filter :load_matchday, only: [:edit, :update, :destroy]
+  before_filter :load_matchday, only: [:edit, :update, :destroy, :in_row, :redate_games]
 
   def new
     @matchday = @season.matchdays.build(number: @season.next_matchday_number, date: @season.next_matchday_date, arrange_dates: false)
@@ -48,9 +48,17 @@ class MatchdaysController < ApplicationController
   end
   
   def in_row
-    matchday = Matchday.find(params[:id])
-    matchday.season.put_all_in_fri_row!(matchday)
+    @matchday.season.put_all_in_fri_row!(@matchday)
     redirect_to @season
+  end
+  
+  def redate_games
+    @matchday.games.each do |g| 
+      puts "#{g.home.name} - #{g.guest.name}: ", g.date
+      g.update_attributes(date: @matchday.date)
+      puts"new: ", g.date
+    end
+    redirect_to season_matchday_path(@season, @matchday)
   end
   
   private

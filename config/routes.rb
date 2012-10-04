@@ -29,6 +29,7 @@ BasicApp::Application.routes.draw do
     resources :matchdays do
       member do
         put 'in_row'
+        put 'redate_games'
       end
       resources :games 
     end

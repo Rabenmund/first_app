@@ -23,7 +23,7 @@ class GamesController < ApplicationController
     @game = @matchday.games.new(params[:game])
     if @game.save
       flash[:success] = "Spiel wurde erstellt."
-      redirect_to season_matchday_game_path(@season, @matchday, @game)
+      redirect_to season_matchday_path(@season, @matchday)
     else
       flash[:error] = "Neues Spiel konnte nicht erstellt werden."
       render 'new'
@@ -42,14 +42,14 @@ class GamesController < ApplicationController
       redirect_to season_matchday_game_path(game)
       return
     end
-    redirect_to season_matchday_games_path #(params[:season_id], params[:matchday_id])
+    redirect_to season_matchday_path(params[:season_id], params[:matchday_id])
   end
   
   def update
     @game = Game.find(params[:id])
     if @game.update_attributes(params[:game])
       flash[:success] = "Einstellungen geändert."
-      render 'show'
+      redirect_to season_matchday_path(@season, @matchday)
     else
       flash[:error] = "Einstellungen konnten nicht geändert werden."
       render 'edit'

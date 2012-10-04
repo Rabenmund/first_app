@@ -105,7 +105,7 @@ class Game < ActiveRecord::Base
   
   def game_count
     return false unless (!matchday.nil? && !home.nil? && !guest.nil?)
-    if self.matchday.games.count >= 9
+    if self.matchday.games.count > 9
       errors.add(:Spiel, "kann nicht erstellt werden. Spieltag #{matchday.id} hat bereits 9 Spiele")
       return false
     end

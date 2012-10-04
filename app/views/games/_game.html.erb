@@ -1,11 +1,41 @@
 <section>
 	<span>
-		<h4>
-			<%= link_to "#{game.home.name} - #{game.guest.name}", season_matchday_game_path(game.season, game.matchday, game) %>
-		</h4>
+		<div class="span9">
+			<div class="span2">
+				<%= "#{game.has_wday_humanize}," %>
+				<%= "#{game.date.day}.#{game.date.month}.#{game.date.year}:   "%>
+			</div>
+			<h4>
+				<div class="span3">
+					<section>	
+						<%= link_to "#{game.home.name}", team_path(game.home) %>
+					</section>
+				</div>
+				<div class="span3">
+					<section>	
+						<%= link_to "#{game.guest.name}", team_path(game.guest) %>
+					</section>
+				</div>
+			</h4>
+		</div>
+		<div class="span1">
+			<% if game.home_goals && game.guest_goals%>
+				<%= "#{game.home_goals}:#{game.guest_goals}"%>
+			<% else%>
+			<%= "-:-"%>
+			<%end%>
+		</div>
 		<h5>
-			<%= game.has_wday_humanize %>
-			<%= "#{game.date.day}.#{game.date.month}.#{game.date.year}"%>
+			<% if current_user.is_admin? %>
+				<%= link_to "ändern", edit_season_matchday_game_path(game.season, game.matchday, game), method:  :get, class: "btn btn-mini btn-success"%>
+			<% end %>
+			<% if current_user.is_admin? %>
+				<%= link_to "löschen", season_matchday_game_path(game.season, game.matchday, game), method:  :delete,
+	                                 confirm: "Soll das Spiel wirklich gelöscht werden ?",
+	                                 title:   "#{game.home.name} - #{game.guest.name}", 
+									 class: "btn btn-mini btn-danger"%>
+			<% end %>
+
 		</h5>
 	</span>
 </section>
