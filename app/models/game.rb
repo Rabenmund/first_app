@@ -8,6 +8,7 @@ class Game < ActiveRecord::Base
   belongs_to :home, class_name: "Team"
   belongs_to :guest, class_name: "Team"
   has_one    :season, through: :matchday
+  has_many   :tipps
   
   validates :guest_id,    presence: true
   validates :home_id,     presence: true

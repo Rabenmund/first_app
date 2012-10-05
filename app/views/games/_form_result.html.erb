@@ -1,0 +1,7 @@
+<%= form_for([game.matchday.season, game.matchday, game]) do |f| %>
+<%= render 'shared/error_messages', object: f.object %>
+	
+	<%= f.number_field :home_goals, class: "one_char" %>
+	<%= f.number_field :guest_goals, class: "one_char" %>
+  	<%= f.submit "Speichern", class: "btn btn-mini btn-primary" %>
+<% end %>

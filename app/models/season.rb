@@ -10,6 +10,7 @@ class Season < ActiveRecord::Base
   has_and_belongs_to_many :teams
   has_many :matchdays, dependent: :destroy, order: :number
   has_many :games, through: :matchdays
+  has_many :tipps, through: :games
   
   def next_matchday_number
     if matchdays.count > 0

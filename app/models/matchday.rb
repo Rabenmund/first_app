@@ -6,10 +6,13 @@ class Matchday < ActiveRecord::Base
   
   attr_accessor :arrange_dates
   
-  belongs_to  :season
-  has_many    :games
-  has_many    :homes, through: :games
-  has_many    :guests, through: :games
+  belongs_to                  :season
+  has_many                    :games
+  has_many                    :homes, through: :games
+  has_many                    :guests, through: :games
+  has_many                    :tipps, through: :games
+  has_and_belongs_to_many     :winners, class_name: "User", join_table: :matchdays_winners
+  has_and_belongs_to_many     :seconds, class_name: "User", join_table: :matchdays_seconds
    
   validates :number, presence: true, numericality: true
   validates :date, presence: true

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120920074701) do
+ActiveRecord::Schema.define(:version => 20121005071523) do
 
   create_table "games", :force => true do |t|
     t.integer  "home_goals"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20120920074701) do
     t.datetime "date"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.boolean  "finished"
   end
 
   add_index "games", ["home_id", "guest_id"], :name => "pair"
@@ -32,7 +33,24 @@ ActiveRecord::Schema.define(:version => 20120920074701) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "season_id"
+    t.boolean  "finished"
   end
+
+  create_table "matchdays_seconds", :id => false, :force => true do |t|
+    t.integer "matchday_id"
+    t.integer "user_id"
+  end
+
+  add_index "matchdays_seconds", ["matchday_id"], :name => "index_matchdays_seconds_on_matchday_id"
+  add_index "matchdays_seconds", ["user_id"], :name => "index_matchdays_seconds_on_user_id"
+
+  create_table "matchdays_winners", :id => false, :force => true do |t|
+    t.integer "matchday_id"
+    t.integer "user_id"
+  end
+
+  add_index "matchdays_winners", ["matchday_id"], :name => "index_matchdays_winners_on_matchday_id"
+  add_index "matchdays_winners", ["user_id"], :name => "index_matchdays_winners_on_user_id"
 
   create_table "microposts", :force => true do |t|
     t.string   "content"
@@ -50,6 +68,7 @@ ActiveRecord::Schema.define(:version => 20120920074701) do
     t.datetime "created_at",   :null => false
     t.datetime "updated_at",   :null => false
     t.integer  "matchday_ids"
+    t.boolean  "finished"
   end
 
   create_table "seasons_teams", :id => false, :force => true do |t|
@@ -66,6 +85,16 @@ ActiveRecord::Schema.define(:version => 20120920074701) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "tipps", :force => true do |t|
+    t.integer  "home_goals"
+    t.integer  "guest_goals"
+    t.integer  "user_id"
+    t.integer  "game_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.integer  "points"
   end
 
   create_table "users", :force => true do |t|
