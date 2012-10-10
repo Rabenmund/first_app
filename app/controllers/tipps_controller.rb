@@ -21,7 +21,7 @@ class TippsController < ApplicationController
     # not finished season -> param or preselected
     # all md for season -> param or preselected
     # all tipps for md, -> editing not possible for date in passed(before filter)
-    @tipps = @matchday.tipps
+    @games = @matchday.games.active
   end
   
   def create
@@ -44,8 +44,10 @@ class TippsController < ApplicationController
   def load_tipp
     if params[:id]
       @tipp = Tipp.find(params[:id])
+      puts "---> @tipp", @tipp
     else
-      @tipp = @matchday.active.first unless @matchday.active.empty?
+      puts "----> md.tipps:", @matchday.tipps.inspect
+      @tipp = @matchday.tipps.active.first unless @matchday.tipps.active.empty?
     end
   end
   
@@ -59,7 +61,7 @@ class TippsController < ApplicationController
   
   def load_season
     # preselected or selected (in param)
-    if params[:season]
+    if params[:season_id]
       @season = Season.find(params[:season_id])
     else
       @season = Season.active.first unless Season.active.empty?

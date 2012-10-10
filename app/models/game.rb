@@ -51,6 +51,10 @@ class Game < ActiveRecord::Base
     end
   end
   
+  def self.active
+    Game.where("finished = ? AND date > ?", false, DateTime.now)
+  end
+  
   private
   
   def home_not_guest

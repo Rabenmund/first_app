@@ -1,8 +1,7 @@
 bugs
-
+-- session model: remove matchday_ids from db?
 
 stories
--- tests schreiben (model test user : on create validation checken)
 
 
 later

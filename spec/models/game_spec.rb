@@ -152,7 +152,27 @@ describe Game do
       it { should include(game.guest) }
     end
     
+    context :active do
+      subject { Game.active }
+      describe "with an non-finished game" do
+        before do
+          @active_game = create :game, finished: false, date: DateTime.now+1.day
+          @finished_game = create :game, finished: true, date: DateTime.now+1.day
+        end
+        it { should include(@active_game) }
+        it { should_not include(@finished_game) }
+      end
+      describe "with all game finished" do
+        before { @finished_game = create :game, finished: true, date: DateTime.now+1.day }
+        it { should_not include(@finished_game) }
+        it { should eq [] }
+      end
+      describe "with a date before now" do
+        before { @outdated_game = create :game, finished: false, date: DateTime.now-1.day }
+        it { should_not include(@outdated_game) }
+      end
+    end
+    
   end
-      
-  
+    
 end

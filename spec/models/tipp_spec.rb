@@ -20,7 +20,7 @@ describe Tipp do
         it { should eq [] }
       end
       describe "with a date before now" do
-        before { @outdated_tipp = create :tipp, game: (create :game, finished: true, date: DateTime.now-1.day) }
+        before { @outdated_tipp = create :tipp, game: (create :game, finished: false, date: DateTime.now-1.day) }
         it { should_not include(@outdated_tipp) }
       end
     end

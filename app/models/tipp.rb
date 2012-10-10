@@ -19,7 +19,7 @@ class Tipp < ActiveRecord::Base
   
   def user_active_in_season
     # only season_activated_users are allowed to add a tipp
-#    season.usersinclude?(user)
+    matchday.season.users.include?(user)
   end
 
 end
