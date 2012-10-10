@@ -53,7 +53,7 @@ describe Season do
     end
   end
 
-  describe :methods do
+  describe :method do
     
     describe :next_matchday_number do
       describe :no_matchdays do
@@ -108,6 +108,31 @@ describe Season do
         end
         specify { @season.matchdays.find_by_number(3).date.should eq @season.matchdays.find_by_number(2).date + 7.days }
         specify { @season.matchdays.find_by_number(34).date.wday.should eq 5 }
+      end
+    end
+    
+    context :active do
+      subject { Season.active }
+      describe "with an non-finished season" do
+        before do
+          @active_season = create :season
+          @finished_season = create :season, finished: true
+        end
+        it { should include(@active_season) }
+        it { should_not include(@finished_season) }
+      end
+      describe "with all seasons finished" do
+        before { @finished_season = create :season, finished: true }
+        it { should_not include(@finished_season) }
+        it { should eq [] }
+      end
+      describe "with a start_date out of range" do
+        before { @outdated_season = create :season, start_date: DateTime.now+1.day }
+        it { should_not include(@outdated_season) }
+      end
+      describe "with an end_date out of range" do
+        before { @outdated_season = create :season, start_date: DateTime.now-1.day, end_date: DateTime.now-1.day }
+        it { should_not include(@finished_season) }
       end
     end
     

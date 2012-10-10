@@ -3,7 +3,6 @@
 
 class GamesController < ApplicationController
   
-  
   skip_filter   :authenticate,    only: []
   skip_filter   :admin,           only: []
   skip_filter   :correct_user

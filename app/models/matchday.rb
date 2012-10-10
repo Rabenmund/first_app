@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 class Matchday < ActiveRecord::Base
-  attr_accessible :date, :number, :season_id, :arrange_dates
+  attr_accessible :date, :number, :season_id, :arrange_dates, :finished
   
   attr_accessor :arrange_dates
   
@@ -18,6 +18,11 @@ class Matchday < ActiveRecord::Base
   validates :date, presence: true
   validate  :date_in_date_range 
   validate  :date_in_order
+  
+  # before_save :default_values
+  # def default_values
+  #   self.finished = false
+  # end
   
   def is_wday?(d)
     date.wday == d
@@ -57,6 +62,10 @@ class Matchday < ActiveRecord::Base
   
   def free_teams
     season.teams - teams
+  end
+  
+  def self.active
+    Matchday.where("finished = ? AND date > ?", false, DateTime.now)
   end
   
   private

@@ -8,4 +8,18 @@ class Tipp < ActiveRecord::Base
   
   validates_presence_of :user, :game
   
+  validate :user_active_in_season
+  
+  
+  def self.active
+    Tipp.joins(:game).where("finished = ? AND date > ?", false, DateTime.now)
+  end
+  
+  private
+  
+  def user_active_in_season
+    # only season_activated_users are allowed to add a tipp
+#    season.usersinclude?(user)
+  end
+
 end

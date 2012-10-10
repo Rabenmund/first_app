@@ -1,6 +1,6 @@
 class Season < ActiveRecord::Base
-  attr_accessible :end_date, :name, :start_date, :team_ids, :user_ids
-  
+  attr_accessible :end_date, :name, :start_date, :team_ids, :user_ids, :finished
+    
   validates :name, presence: true
   validates :start_date, presence: true
   validates :end_date, presence: true
@@ -11,6 +11,11 @@ class Season < ActiveRecord::Base
   has_many :matchdays, dependent: :destroy, order: :number
   has_many :games, through: :matchdays
   has_many :tipps, through: :games
+  
+  # before_save :default_values
+  # def default_values
+  #   self.finished = false
+  # end
   
   def next_matchday_number
     if matchdays.count > 0
@@ -39,6 +44,10 @@ class Season < ActiveRecord::Base
       date = new_date
       m.update_attribute(:date, date)
     end
+  end
+  
+  def self.active
+    Season.where("finished = ? AND start_date < ? AND end_date > ?", false, DateTime.now, DateTime.now)
   end
   
   private 

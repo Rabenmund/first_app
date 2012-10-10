@@ -35,11 +35,15 @@ describe GamesController do
           Game.any_instance.stub(:home_associated_to_season).and_return(true)
           Game.any_instance.stub(:guest_associated_to_season).and_return(true)
           Game.any_instance.stub(:date_in_seasons_range).and_return(true)
+          Game.any_instance.stub(:game_count).and_return(true)
+          Game.any_instance.stub(:home_unique_at_matchday).and_return(true)
+          Game.any_instance.stub(:guest_unique_at_matchday).and_return(true)
+          Game.any_instance.stub(:home_not_guest).and_return(true)
           post :create, season_id: season.id, matchday_id: matchday.id, game: attributes_for(:game)
         end
         it { should assign_to :game }
         it { should set_the_flash.to "Spiel wurde erstellt." }
-        specify { response.should redirect_to season_matchday_game_path(season, matchday, Game.last ) }
+        specify { response.should redirect_to season_matchday_path(season, matchday ) }
         it { expect { post :create, season_id: season.id, matchday_id: matchday.id, game: attributes_for(:game) }.to change(Game, :count).by(1)}
       end
       describe :invalid do
@@ -60,7 +64,7 @@ describe GamesController do
       describe :valid do
         before { delete :destroy, season_id: season.id, matchday_id: matchday.id, id: @game.id  }
         it { should set_the_flash.to "#{@game.id} wurde gelöscht." }
-        specify { response.should redirect_to season_matchday_games_path }
+        specify { response.should redirect_to season_matchday_path(@game.season, matchday) }
         it { expect { @game2 = create :game, matchday: matchday; delete :destroy, season_id: season.id, matchday_id: matchday.id, id: @game2.id  }.to change(Game, :count).by(0)}
       end
       describe :invalid do
@@ -79,7 +83,7 @@ describe GamesController do
       describe :valid do
         before { put :update, season_id: season.id, matchday_id: matchday.id, id: @game.id, game: {date: DateTime.now}  }
         it { should set_the_flash.to "Einstellungen geändert." }
-        specify { response.should render_template "show"}
+        specify { response.should redirect_to season_matchday_path(@game.season, matchday) }
       end
       describe :invalid do
         before { put :update, season_id: season.id, matchday_id: matchday.id, id: @game.id, game: {date: nil} }

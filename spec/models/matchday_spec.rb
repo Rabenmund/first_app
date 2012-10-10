@@ -166,6 +166,27 @@ describe Matchday do
       end
     end
     
+    context :active do
+      subject { Matchday.active }
+      describe "with an non-finished matchday" do
+        before do
+          @active_matchday = create :matchday, date: DateTime.now+1.day
+          @finished_matchday = create :matchday, finished: true, date: DateTime.now+1.day
+        end
+        it { should include(@active_matchday) }
+        it { should_not include(@finished_matchday) }
+      end
+      describe "with all matchdays finished" do
+        before { @finished_matchday = create :matchday, finished: true }
+        it { should_not include(@finished_matchday) }
+        it { should eq [] }
+      end
+      describe "with a date before now" do
+        before { @outdated_matchday = create :matchday, date: DateTime.now-1.day }
+        it { should_not include(@outdated_matchday) }
+      end
+    end
+    
   end
   
 end

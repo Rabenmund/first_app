@@ -2,10 +2,14 @@ BasicApp::Application.routes.draw do
   root to: 'static_pages#home'
   
   # users
-  resources :users #, except: [:destroy]
   get '/signup',          to: 'users#new'
   get '/activate/:id',    to: 'users#activate',         as: :activate
   get '/deactivate/:id',  to: 'users#deactivate',       as: :deactivate
+  resources :users do #, except: [:destroy]
+    resources :seasons do
+      get '/tipps/index', to: 'tipps#index'
+    end
+  end
   
   # sessions
   resources :sessions, only: [:new, :create, :destroy]
@@ -34,6 +38,7 @@ BasicApp::Application.routes.draw do
       resources :games 
     end
   end
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

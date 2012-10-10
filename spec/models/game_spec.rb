@@ -77,14 +77,14 @@ describe Game do
       let(:matchday) { create :matchday }
       describe "lower than 9 games threshold" do
         before do
-          matchday.games.stub(:count).and_return(8)
+          matchday.games.stub(:count).and_return(9)
           @game = create :game, matchday: matchday
         end
         it { should be_valid }
       end
       describe "9 games or more" do
         before do
-          matchday.games.stub(:count).and_return(9)
+          matchday.games.stub(:count).and_return(10)
           @game = build :game, matchday: matchday
         end
         specify { expect { @game.save! }.to raise_error (/hat bereits 9 Spiele/)}

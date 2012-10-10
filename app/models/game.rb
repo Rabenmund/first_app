@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 class Game < ActiveRecord::Base
-  attr_accessible :guest_goals, :home_goals, :home_id, :guest_id, :matchday_id, :date
+  attr_accessible :guest_goals, :home_goals, :home_id, :guest_id, :matchday_id, :date, :finished
   
   belongs_to :matchday
   belongs_to :home, class_name: "Team"
@@ -22,6 +22,11 @@ class Game < ActiveRecord::Base
   validate  :home_unique_at_matchday
   validate  :guest_unique_at_matchday
   validate  :home_not_guest
+  
+  # before_save :default_values
+  # def default_values
+  #   self.finished = false
+  # end
   
   def teams
     return [home, guest]

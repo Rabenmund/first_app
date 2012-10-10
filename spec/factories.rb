@@ -23,6 +23,7 @@ FactoryGirl.define do
     sequence(:name)           { |n| "SeasonName#{n}"}
     start_date                DateTime.now-1.year
     end_date                  DateTime.now+5.year
+    finished                  false
     factory :season_and_team do
       after :build do |season|
         team = create :team
@@ -52,6 +53,7 @@ FactoryGirl.define do
   factory :matchday, class: Matchday do
     sequence(:number)         { |n| n }
     date                      DateTime.now
+    finished                  false
     season
   end
   
@@ -59,11 +61,17 @@ FactoryGirl.define do
     date                      DateTime.now
     home_id                   { team = create :team; team.id }
     guest_id                  { team = create :team; team.id }
+    finished                  false
     matchday                  
     after :build do |game|
       game.matchday.season.teams << game.home #unless game.matchday.season.teams.includes(game.home)
       game.matchday.season.teams << game.guest #unless game.matchday.season.teams.includes(game.guest)
     end
+  end
+  
+  factory :tipp, class: Tipp do
+    user
+    game
   end
     
 end
