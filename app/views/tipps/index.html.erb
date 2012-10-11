@@ -1,0 +1,8 @@
+Tipp Seite
+<br>
+<br>
+
+Spieltag: <%=@matchday.inspect %><br>
+Saison: <%=@season.inspect %><br>
+Tipps: <%=@tipps.inspect %>
+ --- <%= @matchday.tipps unless @matchday.nil? %><br>

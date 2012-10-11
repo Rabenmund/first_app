@@ -50,6 +50,10 @@ class User < ActiveRecord::Base
     update_attribute :deactivated, true
   end
   
+  def active_seasons
+    seasons.where("finished = ?", false)
+  end
+  
   # to be done
   
   # def lock

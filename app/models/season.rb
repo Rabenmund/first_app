@@ -50,6 +50,10 @@ class Season < ActiveRecord::Base
     Season.where("finished = ? AND start_date < ? AND end_date > ?", false, DateTime.now, DateTime.now)
   end
   
+  def self.my_active(user)
+    self.active.joins(:users).where("user_id = ?", user.id)
+  end
+  
   private 
   
   def go_friday_with(date)

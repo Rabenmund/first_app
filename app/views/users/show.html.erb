@@ -15,17 +15,17 @@
     </section>
 	<section>
       <h3>
-        Saisons
+        Wettbewerb
 	  </h3>
     </section
 	<ul class="seasons">
 		<% if @user.seasons.count > 0 %>
 			<div class="row">
 			<aside>
-				<% @user.seasons.each do |season| %>
-					<div class="span2">
-						<%= render partial: 'seasons/season', locals: { season: season } %>
-					</div>
+				<% @user.active_seasons.each do |season| %>
+					<h4 class="span2">
+						<%= link_to season.name, user_season_tipps_index_path(@user, season) %>
+					</h4>
 		  		<%end%>
 			</aside>
 			</div>
