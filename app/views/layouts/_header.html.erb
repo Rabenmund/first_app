@@ -10,11 +10,11 @@
 			<li><%= link_to "Mannschaften", teams_path if current_user.is_admin? %></li>
 			<li><%= link_to "Saisons", seasons_path if current_user.is_admin? %></li>
 			<% current_user.active_seasons.each do |season| %>
-				<li><%= link_to "Tipp: #{season.name}", user_season_tipps_index_path(current_user, season)%></li>
+				<li><%= link_to "Tipp: #{season.name}", user_season_matchday_tipps_index_path(current_user, season, season.active_matchdays.first) unless season.active_matchdays.empty? %> </li>
 			<% end %>
 			<% if current_user.is_admin? %>
 				<% Season.active.each do |season| %>
-					<li><%= link_to "(#{season.name})", user_season_tipps_index_path(season.users.first, season) unless season.users.empty? %></li>
+					<li><%= link_to "(#{season.name})", user_season_matchday_tipps_index_path(season.users.first, season, season.active_matchdays.first) unless season.users.empty? || season.active_matchdays.empty? %></li>
 					<% end %>
 				<% end %>
             <li><%= link_to "Mitspieler", users_path %></li>

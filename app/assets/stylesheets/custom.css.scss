@@ -62,7 +62,6 @@ p {
   line-height: 1.7em;
 }
 
-
 /* header */
 
 #logo {
@@ -269,6 +268,58 @@ aside {
 }
 
 .one_char {
-   width : 18px;
+   	width : 18px;
 }
+
+.width_12 {
+  	width : 12px;
+}
+
+.font_18 {
+	font-size: 18px;
+}
+
+.left {
+	text-align: left;
+}
+.right {
+	text-align: right;
+}
+
+#games {
+	.day-column {
+		width: 40px;
+		text-align: center;
+		font-size: 12px;
+	}
+	.time-column {
+		width: 50px;
+		text-align: center;
+		font-size: 18px;
+		vertical-align: middle;
+	}
+	.team-column {
+		width: 200px;
+		text-align: left;
+		font-size: 18px;
+		vertical-align: middle;
+	}
+	.result-column {
+		width: 30px;
+		text-align: center;
+		font-size: 18px;
+		vertical-align: middle;
+		color: $red;
+		
+	}
+	.picture-column {
+		width: 30px;
+		text-align: center;
+		vertical-align: middle;
+		
+	}
+	
+}
+
+
 

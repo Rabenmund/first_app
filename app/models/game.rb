@@ -23,6 +23,8 @@ class Game < ActiveRecord::Base
   validate  :guest_unique_at_matchday
   validate  :home_not_guest
   
+  scope :ordered_by_date, order: :date
+  
   # before_save :default_values
   # def default_values
   #   self.finished = false

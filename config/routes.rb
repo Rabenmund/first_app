@@ -7,7 +7,9 @@ BasicApp::Application.routes.draw do
   get '/deactivate/:id',  to: 'users#deactivate',       as: :deactivate
   resources :users do #, except: [:destroy]
     resources :seasons do
-      get '/tipps/index', to: 'tipps#index'
+      resources :matchdays do
+        get '/tipps/index', to: 'tipps#index'
+      end
     end
   end
   

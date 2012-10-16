@@ -1,0 +1,16 @@
+%tr
+	%td.day-column="#{human_wday(game.date)} "+" #{human_date(game.date)}"
+	%td.time-column= human_time(game.date)
+	%td.picture-column
+	%td.team-column
+		= link_to game.home.name, team_path(game.home)
+		%br
+	%td.picture-column	
+	%td.team-column
+		= link_to game.guest.name, team_path(game.guest)
+		%br
+	
+	%td.result-column
+		= 1
+	%td.result-column
+		= 0

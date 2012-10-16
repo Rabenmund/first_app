@@ -9,6 +9,33 @@ module ApplicationHelper
     end
   end
 
+  def human_date(datetime)
+    "#{"%02d" % datetime.day}.#{"%02d" % datetime.month}.#{datetime.year}"
+  end
+  
+  def human_time(datetime)
+    "#{"%02d" % datetime.hour}:#{"%02d" % datetime.min}"
+  end
+  
+  def human_wday(datetime)
+    case datetime.wday
+    when 1
+      day = "Montag"
+    when 2 
+      day = "Dienstag"
+    when 3 
+      day = "Mittwoch"
+    when 4 
+      day = "Donnerstag"
+    when 5 
+      day = "Freitag"
+    when 6 
+      day = "Samstag"
+    when 0 
+      day = "Sonntag"
+    end
+  end
+    
   # def distance_of_time_in_words(from_time, to_time = 0, include_seconds = false)  
   #   from_time = from_time.to_time if from_time.respond_to?(:to_time)  
   #   to_time = to_time.to_time if to_time.respond_to?(:to_time)  

@@ -2,7 +2,7 @@
 <%= render 'shared/error_messages', object: f.object %>
 	
 	<%= f.label :Datum %>
-	<%= f.date_select :date, default: @matchday.date %>
+	<%= f.datetime_select :date, default: @matchday.date %>
 	
 	<%= f.label :Heim%>
 	<%= f.number_field :home_goals%>

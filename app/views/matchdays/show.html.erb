@@ -24,7 +24,7 @@
 			<% if @matchday.games.count > 0 %>
 				<div class="row">
 				<aside>
-					<% @matchday.games.each do |game| %>
+					<% @matchday.games.ordered_by_date.each do |game| %>
 						<div>
 							<%= render partial: 'games/game', locals: { game: game } %>
 						</div>

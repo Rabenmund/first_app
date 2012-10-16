@@ -1,0 +1,26 @@
+.row
+	.span6
+		%h1.left= "#{@matchday.number}. Spieltag"
+		%h2.left= "#{@matchday.has_wday_humanize}, #{"%02d" % @matchday.date.day}.#{"%02d" % @matchday.date.month}.#{@matchday.date.year}, #{"%02d" % @matchday.date.hour}:#{"%02d" % @matchday.date.min}"
+	.span6
+		%p
+		- i=0
+		.row.right
+			- i=0; j=@season.active_matchdays.count
+			- @season.active_matchdays.each do |m|
+				- i += 1
+				- if j > 17 && i > j/2
+					- i=0
+					%p
+				- if m == @matchday
+					=link_to m.number, user_season_matchday_tipps_index_path(@user, @season, m), class: 'btn btn-warning btn-small width_12'
+				- else
+					=link_to m.number, user_season_matchday_tipps_index_path(@user, @season, m), class: 'btn btn-info btn-small width_12'
+%p
+- if @matchday.games.any?
+	%table.table.table-bordered#games
+		%body
+			=render partial: "game", collection: @matchday.games.ordered_by_date
+- else
+	%h1 
+	%h6.center="Keine Spiele verfügbar"
