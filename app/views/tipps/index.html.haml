@@ -18,29 +18,32 @@
 					=link_to m.number, user_season_matchday_tipps_index_path(@user, @season, m), class: 'btn btn-info btn-small width_12'
 %p
 - if @matchday.games.any?
-	%table.table.table-bordered.table-condensed#games
-		%body
-			- i = 0
-			- @matchday.games.ordered_by_date.each do |game|
-				- i += 1
-				%tr
-					%td.day-column="#{human_wday(game.date)} "+" #{human_date(game.date)}"
-					%td.time-column= human_time(game.date)
-					%td.picture-column
-					%td.team-column
-						= link_to game.home.name, team_path(game.home)
-						%br
-					%td.picture-column	
-					%td.team-column
-						= link_to game.guest.name, team_path(game.guest)
-						%br
-					%td.result-column
-						- home = game.tipp_of(@user) ? game.tipp_of(@user).home_goals : 0
-						= number_field_tag 'home', home, :in => 0...10, id: "home-#{i}", class: :quarter_small
-					%td.result-column
-						- guest = game.tipp_of(@user) ? game.tipp_of(@user).guest_goals : 0
-						= number_field_tag 'guest', guest, :in => 0...10, id: "guest-#{i}", class: :quarter_small
-	= button_to "Speichern", class: "btn btn-primary", action: 'save_tipps', method: :post
+	=form_tag user_season_matchday_tipps_save_tipps_path, method: :post do
+		%table.table.table-bordered.table-condensed#games
+			%body
+				- i = 0
+				- @matchday.games.ordered_by_date.each do |game|
+					- i += 1
+					%tr
+						%td.day-column="#{human_wday(game.date)} "+" #{human_date(game.date)}"
+						%td.time-column= human_time(game.date)
+						%td.picture-column
+						%td.team-column
+							= link_to game.home.name, team_path(game.home)
+							%br
+						%td.picture-column	
+						%td.team-column
+							= link_to game.guest.name, team_path(game.guest)
+							%br
+						%td.result-column
+							- home = game.tipp_of(@user) ? game.tipp_of(@user).home_goals : 0
+							= number_field_tag home_tag(i), home, :in => 0...10, class: :quarter_small
+						%td.result-column
+							- guest = game.tipp_of(@user) ? game.tipp_of(@user).guest_goals : 0
+							= number_field_tag guest_tag(i), guest, :in => 0...10, class: :quarter_small
+							- hidden_field_tag "games_count", @matchday.games.count
+		= hidden_field_tag 'games_count', @matchday.games.count
+		= submit_tag 'Speichern'
 	
 - else
 	%h1 

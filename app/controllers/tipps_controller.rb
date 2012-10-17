@@ -25,6 +25,7 @@ class TippsController < ApplicationController
   end
   
   def save_tipps
+    puts params.inspect
     render 'index'
   end
   
