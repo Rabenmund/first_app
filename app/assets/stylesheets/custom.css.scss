@@ -275,6 +275,10 @@ aside {
   	width : 12px;
 }
 
+.height_30 {
+	height: 30px !important;
+}
+
 .font_18 {
 	font-size: 18px;
 }
@@ -305,11 +309,9 @@ aside {
 		vertical-align: middle;
 	}
 	.result-column {
-		width: 30px;
+		width: 50px;
 		text-align: center;
-		font-size: 18px;
 		vertical-align: middle;
-		color: $red;
 		
 	}
 	.picture-column {
@@ -318,8 +320,21 @@ aside {
 		vertical-align: middle;
 		
 	}
-	
+	.quarter_small {
+		width: 	48px;
+		height: 30px;
+		font-size: 18px;
+		vertical-align: middle;
+		text-align: center;
+	}
 }
-
-
+.app_h1_full {
+	font-size: 36px;
+	text-align: left;
+	margin-bottom: 10px;
+}
+.app_h2_full {
+	text-align: right;
+	margin-bottom: 4px;
+}
 

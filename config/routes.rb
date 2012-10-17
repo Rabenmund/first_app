@@ -9,6 +9,7 @@ BasicApp::Application.routes.draw do
     resources :seasons do
       resources :matchdays do
         get '/tipps/index', to: 'tipps#index'
+        post '/tipps/save_tipps', to: 'tipps#save_tipps'
       end
     end
   end

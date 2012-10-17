@@ -57,6 +57,10 @@ class Game < ActiveRecord::Base
     Game.where("finished = ? AND date > ?", false, DateTime.now)
   end
   
+  def tipp_of(user)
+    tipps.find_by_user_id(user.id)
+  end
+  
   private
   
   def home_not_guest

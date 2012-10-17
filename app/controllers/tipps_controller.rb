@@ -21,7 +21,11 @@ class TippsController < ApplicationController
     # not finished season -> param or preselected
     # all md for season -> param or preselected
     # all tipps for md, -> editing not possible for date in passed(before filter)
-    @games = @matchday.games.active
+    # @games = @matchday.games.active
+  end
+  
+  def save_tipps
+    render 'index'
   end
   
   def create
