@@ -61,6 +61,22 @@ class Game < ActiveRecord::Base
     tipps.find_by_user_id(user.id)
   end
   
+  def can_be_tipped?
+    (date > DateTime.now ? true : false) && !finished?
+  end
+  
+  def finished?
+    finished == true
+  end
+  
+  def has_result?
+    home_goals && guest_goals
+  end
+  
+  def has_final_result?
+    finished? && home_goals && guest_goals
+  end
+  
   private
   
   def home_not_guest

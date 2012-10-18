@@ -58,7 +58,7 @@ FactoryGirl.define do
   end
   
   factory :game, class: Game do
-    date                      DateTime.now
+    date                      DateTime.now+1.day
     home_id                   { team = create :team; team.id }
     guest_id                  { team = create :team; team.id }
     finished                  false
@@ -72,6 +72,9 @@ FactoryGirl.define do
   factory :tipp, class: Tipp do
     user
     game
+    after :build do |tipp|
+      tipp.game.matchday.season.users << tipp.user
+    end
   end
     
 end

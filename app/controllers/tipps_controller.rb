@@ -4,7 +4,7 @@
 class TippsController < ApplicationController
   
   skip_filter   :authenticate,    only: []
-  skip_filter   :admin,           only: [:create, :new, :index, :show, :update, :edit]
+  skip_filter   :admin,           only: [:create, :new, :index, :show, :update, :edit, :save_tipps]
   skip_filter   :correct_user,    only: []
   before_filter :load_season
   before_filter :load_matchday
@@ -25,7 +25,23 @@ class TippsController < ApplicationController
   end
   
   def save_tipps
-    puts params.inspect
+    i=0
+    params[:game_count].to_i.times do
+      i += 1
+      game = @matchday.games.find(params["game_id-#{i}".to_sym])
+      tipp = game.tipps.find_by_user_id(@user.id)
+      if tipp
+        tipp.home_goals = params["home-#{i}"].to_i
+        tipp.guest_goals = params["guest-#{i}"].to_i
+      else
+        tipp = @user.tipps.new(game_id: game.id, home_goals: params["home-#{i}"].to_i, guest_goals: params["guest-#{i}"].to_i )
+      end
+      if tipp.save
+        flash[:success] = "Spieltag gespeichert!"
+      else
+        flash[:error] = "Spieltag konnte nicht gespeichert werden."
+      end
+    end
     render 'index'
   end
   
@@ -58,7 +74,7 @@ class TippsController < ApplicationController
   
   def load_matchday
     if params[:matchday_id]
-      @matchday = Matchday.find(params[:matchday_id])
+      @matchday = @season.matchdays.find(params[:matchday_id])
     else
       @matchday = @season.matchdays.active.first unless @season.matchdays.empty?
     end
@@ -67,7 +83,7 @@ class TippsController < ApplicationController
   def load_season
     # preselected or selected (in param)
     if params[:season_id]
-      @season = Season.find(params[:season_id])
+      @season = @user.seasons.find(params[:season_id])
     else
       @season = Season.active.first unless Season.active.empty?
     end

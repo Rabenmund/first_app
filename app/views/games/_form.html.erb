@@ -1,6 +1,9 @@
 <%= form_for([@season, @matchday, @game]) do |f| %>
 <%= render 'shared/error_messages', object: f.object %>
 	
+	<%= f.label "Spiel beendet?"%>
+	<%= f.check_box :finished %>
+	
 	<%= f.label :Datum %>
 	<%= f.datetime_select :date, default: @matchday.date %>
 	

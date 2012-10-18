@@ -68,6 +68,13 @@ class Matchday < ActiveRecord::Base
     Matchday.where("finished = ? AND date > ?", false, DateTime.now)
   end
   
+  def has_games_to_tipp?
+    games.each do |game|
+      return true if game.can_be_tipped?
+    end
+    return false
+  end
+  
   private
   
   def date_in_date_range

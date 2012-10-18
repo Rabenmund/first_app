@@ -272,7 +272,14 @@ aside {
 }
 
 .width_12 {
-  	width : 12px;
+  	width : 10px;
+}
+
+.quarter_8 {
+  	width : 8px;
+	height: 8px;
+	text_align: center;
+	vertical_align: middle;
 }
 
 .height_30 {
@@ -281,6 +288,10 @@ aside {
 
 .font_18 {
 	font-size: 18px;
+}
+
+.font_14 {
+	font-size: 14px;
 }
 
 .left {
@@ -297,7 +308,7 @@ aside {
 		font-size: 12px;
 	}
 	.time-column {
-		width: 50px;
+		width: 40px;
 		text-align: center;
 		font-size: 18px;
 		vertical-align: middle;
@@ -308,9 +319,20 @@ aside {
 		font-size: 18px;
 		vertical-align: middle;
 	}
-	.result-column {
-		width: 50px;
+	.deactivated {
+		color: $grayLight;
+	}
+	.tipp-column {
+		width: 30px;
 		text-align: center;
+		font-size: 18px;
+		vertical-align: middle;
+		
+	}
+	.result-column {
+		width: 20px;
+		text-align: center;
+		font-size: 10px;
 		vertical-align: middle;
 		
 	}
@@ -329,7 +351,8 @@ aside {
 	}
 }
 .app_h1_full {
-	font-size: 36px;
+	margin-top: 10px;
+	font-size: 29px;
 	text-align: left;
 	margin-bottom: 10px;
 }
