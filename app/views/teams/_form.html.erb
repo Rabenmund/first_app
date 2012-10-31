@@ -4,6 +4,12 @@
 	<%= f.label :name %>
 	<%= f.text_field :name %>
 	
+	<%= f.label :kurzname %>
+	<%= f.text_field :shortname %>
+	
+	<%= f.label :kennzeichen %>
+	<%= f.text_field :chars %>
+	
 	<div class="field">
     	<%= f.label :Saison %><br />
     	<%= f.select :season_ids, Season.all.collect { |s| [ s.name, s.id] }, { }, { multiple: true, size: 5 } %>

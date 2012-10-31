@@ -35,6 +35,25 @@ module ApplicationHelper
       day = "Sonntag"
     end
   end
+  
+  def small_human_wday(datetime)
+    case datetime.wday
+    when 1
+      day = "Mo"
+    when 2 
+      day = "Di"
+    when 3 
+      day = "Mi"
+    when 4 
+      day = "Do"
+    when 5 
+      day = "Fr"
+    when 6 
+      day = "Sa"
+    when 0 
+      day = "So"
+    end
+  end
     
   # def distance_of_time_in_words(from_time, to_time = 0, include_seconds = false)  
   #   from_time = from_time.to_time if from_time.respond_to?(:to_time)  

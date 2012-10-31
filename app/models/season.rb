@@ -54,6 +54,34 @@ class Season < ActiveRecord::Base
     matchdays.where("finished = ? AND date > ?", false, DateTime.now)
   end
   
+  def matchdays_ordered_by_number
+    matchdays.order(:number) if matchdays
+  end
+  
+  def matchdays_finished
+    res = []
+    matchdays_ordered_by_number.each { |m| res << m if m.is_finished?}
+    return res
+  end
+  
+  def last_finished_matchday
+    if matchdays &&  matchdays_finished.any? 
+      return matchdays_finished.last 
+    end
+    return nil
+  end
+  
+  def points_for(user)
+    u_tipps = tipps.where(user_id: user.id).joins(:game).where(games: {finished: true})
+    sum = 0  
+    u_tipps.each {|t| sum += t.points  } if u_tipps.any?
+    return sum
+  end
+  
+  def users_ordered_by_points
+    users.sort { |b,a| self.points_for(a) <=> self.points_for(b) }
+  end
+  
   private 
   
   def go_friday_with(date)

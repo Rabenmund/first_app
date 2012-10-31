@@ -1,0 +1,25 @@
+%td.picture-column.center=link_to gravatar_for(user, size: 18), user
+%td.nickname-column=user.nickname
+- @matchday.games.each do |g|
+	%td.tipp-column
+		- if g.started? 
+			- if t = g.tipp_of(user)
+				- if g.finished? 
+					- if t.points > 0
+						%span
+							= "#{t.home_goals} : #{t.guest_goals} "
+							%i.icon-arrow-right
+							%span.points=" #{t.points}"
+					- else
+						.nosuccess= "#{t.home_goals} : #{t.guest_goals} "
+				- else
+					.notfinished= "#{t.home_goals} : #{t.guest_goals} "
+
+			- else
+				- if g.finished?  
+					.nosuccess= "- : -"
+				- else
+					.nosuccess= "- : -"
+	
+%td.points-column
+	= @matchday.finished_points_for(user)

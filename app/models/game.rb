@@ -69,6 +69,10 @@ class Game < ActiveRecord::Base
     finished == true
   end
   
+  def started?
+    DateTime.now > date - 5.minutes
+  end
+  
   def has_result?
     home_goals && guest_goals
   end

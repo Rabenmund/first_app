@@ -4,24 +4,17 @@
 class TippsController < ApplicationController
   
   skip_filter   :authenticate,    only: []
-  skip_filter   :admin,           only: [:create, :new, :index, :show, :update, :edit, :save_tipps]
+  skip_filter   :admin,           only: [:index, :save_tipps]
   skip_filter   :correct_user,    only: []
   before_filter :load_season
   before_filter :load_matchday
-  before_filter :load_tipp,       only: [:show, :edit, :update]
+  before_filter :load_tipp,       only: []
 
-  def new
-  end
-  
 #  # User: Tipps Anzeige: Season->Matchdays->Tipps für nicht "finished" seasons / "started" matchdays
 #  # before filter hier benötigt für finished seasons, started matchdays
 #  # nur admin darf Tipps sehen/ändern für andere Seasons oder Matchdays
   
-  def index_user
-    # not finished season -> param or preselected
-    # all md for season -> param or preselected
-    # all tipps for md, -> editing not possible for date in passed(before filter)
-    # @games = @matchday.games.active
+  def index
   end
   
   def save_tipps
@@ -45,19 +38,8 @@ class TippsController < ApplicationController
     render 'index'
   end
   
-  def create
-  end
-  
-  def edit
-  end
-  
-#  def destroy
-#  end
-  
-  def update
-  end
-  
-  def show
+  def select_user
+    redirect_to user_season_matchday_tipps_index_path(params[:user], @season, @matchday)
   end
   
   private
@@ -65,9 +47,7 @@ class TippsController < ApplicationController
   def load_tipp
     if params[:id]
       @tipp = Tipp.find(params[:id])
-      puts "---> @tipp", @tipp
     else
-      puts "----> md.tipps:", @matchday.tipps.inspect
       @tipp = @matchday.tipps.active.first unless @matchday.tipps.active.empty?
     end
   end
@@ -81,11 +61,14 @@ class TippsController < ApplicationController
   end
   
   def load_season
-    # preselected or selected (in param)
     if params[:season_id]
-      @season = @user.seasons.find(params[:season_id])
+      @season = @user.seasons.active.find(params[:season_id])
     else
-      @season = Season.active.first unless Season.active.empty?
+      if current_user.is_admin?
+        @season = Season.active.first unless Season.active.empty?
+      else
+        redirect_to home_path
+      end
     end
   end
 

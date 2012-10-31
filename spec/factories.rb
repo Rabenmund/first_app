@@ -17,6 +17,7 @@ FactoryGirl.define do
   
   factory :team, class: Team do
     sequence(:name)           { |n| "TeamName#{n}"}
+    sequence(:shortname)      { |n| "Short#{n}"}
   end
   
   factory :season, class: Season do

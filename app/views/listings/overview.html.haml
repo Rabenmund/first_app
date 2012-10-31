@@ -1,0 +1,72 @@
+.row.overview
+	.span4
+		%h1="Tippspiel #{@season.name}"
+		%h2="Punkte"
+	.span8
+		%p
+		- i=0
+		.row.right
+			- i=0
+			- @season.matchdays.each do |m|
+				- i += 1
+				- if i == 18
+					%p
+				- if m == @matchday
+					=link_to m.number, season_matchday_listings_overview_path(@season, m), class: 'btn btn-primary btn-small width_12'
+				- else
+					- if m.is_finished?
+						=link_to m.number, season_matchday_listings_overview_path(@season, m), class: 'btn btn-small btn-success width_12'
+					- else
+						=link_to m.number, season_matchday_listings_overview_path(@season, m), class: 'btn btn-small width_12'
+%p
+%hr
+.row.bi-format
+	.span6
+		%table.table.table-bordered.table-condensed#users
+			%thead
+				%tr 
+					%h3= "Gesamtstand:"
+				%tr
+					%th.place-column= "Platz"
+					%th.picture-column
+					%th.nickname-column= "Mitspieler"
+					%th.points-column="Punkte"
+			%tbody
+				- i = 0
+				- @season.users_ordered_by_points.each do |user|
+					- points = @season.points_for(user)
+					- i += 1
+					- j = i if points != @last_points
+					%tr
+						%td.place-column=j.nil? ? "" : "#{j}."
+						%td.picture-column.center=link_to gravatar_for(user, size: 40), user
+						%td.nickname-column=user.nickname
+						%td.points-column=points
+					- @last_points = points
+	.span6
+		- if @season.last_finished_matchday.number < @matchday.number
+			%h3= "Noch kein Ergebnis für Spieltag #{@matchday.number}."
+		- else
+			%table.table.table-bordered.table-condensed#users
+				%thead
+					%tr
+						%h3="Spieltag #{@matchday.number}:"
+					%tr
+						%th.place-column= "Platz"
+						%th.picture-column
+						%th.nickname-column= "Mitspieler"
+						%th.points-column="Punkte"
+				%tbody
+					- i = 0
+					- @matchday.users_ordered_by_points.each do |user|
+						- points = @matchday.points_for(user)
+						- i += 1
+						- j = i if points != @last_points
+						%tr
+							%td.place-column=j.nil? ? "" : "#{j}."
+							%td.picture-column.center=link_to gravatar_for(user, size: 40), user
+							%td.nickname-column=user.nickname
+							%td.points-column=points
+						- @last_points = points
+
+		

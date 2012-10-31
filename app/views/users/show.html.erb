@@ -24,7 +24,11 @@
 			<aside>
 				<% @user.active_seasons.each do |season| %>
 					<h4 class="span2">
-						<%= link_to season.name, user_season_tipps_index_path(@user, season) %>
+						<% if @user == current_user %>
+							<%= link_to season.name, user_season_matchday_tipps_index_path(@user, season, season.active_matchdays.first) %>
+						<% else %>
+							<%= season.name%>
+						<% end%>
 					</h4>
 		  		<%end%>
 			</aside>

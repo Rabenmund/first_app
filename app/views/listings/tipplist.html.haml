@@ -1,0 +1,57 @@
+.row.overview
+	.span4
+		%h1="Tippspiel #{@season.name}"
+		%h2="Tipps Spieltag #{@matchday.number}"
+	.span8
+		%p
+		- i=0
+		.row.right
+			- i=0
+			- @season.matchdays.each do |m|
+				- i += 1
+				- if i == 18
+					%p
+				- if m == @matchday
+					=link_to m.number, season_matchday_listings_tipplist_path(@season, m), class: 'btn btn-primary btn-small width_12'
+				- else
+					- if m.is_finished?
+						=link_to m.number, season_matchday_listings_tipplist_path(@season, m), class: 'btn btn-small btn-success width_12'
+					- else
+						=link_to m.number, season_matchday_listings_tipplist_path(@season, m), class: 'btn btn-small width_12'
+%p
+%hr
+.row.single-format
+	.span12
+		%table.table.table-bordered.table-condensed#tipps
+			%thead
+				%tr.single_formnat
+					%th.picture-column
+					%th.nickname-header
+						= "#{human_wday(@matchday.first_game_date)}"
+						%br
+						= "#{human_date(@matchday.first_game_date)}"
+					- @matchday.games.each do |g|
+						%th.tipp-column
+							=g.home.shortname
+							%br
+							=g.guest.shortname
+							%p
+							- if g.started?
+								- if g.finished?
+									.result= "#{g.home_goals} : #{g.guest_goals}"
+								- else
+									.intermediate_message="(läuft gerade)"
+									.intermediate_result=g.home_goals && g.guest_goals ? "#{g.home_goals} : #{g.guest_goals}" : "?"
+							- else
+								.dated= "#{small_human_wday(g.date)}, #{g.date.hour}:#{g.date.min}"
+					%th.points-header
+						= "Punkte"
+			%tbody
+				- @matchday.users_ordered_by_points.each do |user|
+					- if user == current_user
+						%tr.current_user
+							= render partial: 'user_tipps', locals: { user: user }
+					- else
+						%tr
+							= render partial: 'user_tipps', locals: { user: user }
+							

@@ -302,6 +302,7 @@ aside {
 }
 
 #games {
+	
 	.day-column {
 		width: 40px;
 		text-align: center;
@@ -350,14 +351,150 @@ aside {
 		text-align: center;
 	}
 }
-.app_h1_full {
+
+#users {
+	
+	.place-column {
+		width: 40px;
+		text-align: center;
+		font-size: 18px;
+		vertical-align: middle;
+	}
+	.icon-column {
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.picture-column {
+		width: 30px;
+		vertical-align: middle;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.nickname-column {
+		width: 40px;
+		text-align: left;
+		font-size: 18px;
+		vertical-align: middle;
+		
+	}
+	.points-column {
+		width: 20px;
+		text-align: center;
+		font-size: 18px;
+		vertical-align: middle;
+		
+	}
+		
+}
+
+#tipps {
+
+	.picture-column {
+		width: 12px;
+		margin: auto;
+	}
+	.nickname-column {
+		text-align: left;
+		font-size: 15px;
+		vertical-align: middle;
+		
+	}
+	.nickname-header {
+		text-align: left;
+		font-size: 15px;
+		color: darkblue;
+		vertical-align: top;
+	}
+	.tipp-column {
+		text-align: center;
+		font-size: 12px;
+		vertical-align: middle;
+		
+	}
+	.points-header {
+		text-align: center;
+		vertical-align: middle;
+		
+	}
+	.points-column {
+		text-align: center;
+		font-size: 18px;
+		color: darkred;
+		vertical-align: middle;
+		
+	}
+		
+}
+
+.overview h1 {
 	margin-top: 10px;
 	font-size: 29px;
 	text-align: left;
 	margin-bottom: 10px;
 }
-.app_h2_full {
-	text-align: right;
+
+.overview h2 {
+	text-align: left;
 	margin-bottom: 4px;
 }
 
+.bi-format h3 {
+	margin-bottom: 1em;
+	margin-top: 1em;
+	font-size: 20px;
+	text-align: left;
+}
+
+.bi-format table {
+	width: 90%;
+}
+
+.single-format table {
+	height: 50%;
+}
+
+.single-format table .result {
+	font-size: 18px;
+	color: darkblue;
+}
+
+.single-format table .intermediate_result {
+	font-size: 18px;
+	color: gray;
+}
+
+.single-format table .intermediate_message {
+	font-size: 10px;
+	color: gray;
+}
+
+.single-format table .dated {
+	font-size: 12px;
+	color: gray;
+}
+
+.single-format table .points {
+	color: darkred;
+	font-size: 15px;
+}
+
+.single-format table .nosuccess {
+	color: lightgray;
+}
+
+.single-format table .current_user .nosuccess {
+	color: darkgray;
+}
+
+.single-format table .current_user {
+	background-color: pink;
+}
+
+.notfinished {
+}
+
+.float_left { float: left; }
+.vertical_middle { vertical-align: middle; }  
+.margin_6 { margin: 6px; }
+.nobr { white-space: nowrap; }
+.inline { display: inline;}

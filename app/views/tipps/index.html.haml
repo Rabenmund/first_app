@@ -1,7 +1,8 @@
-.row
+.row.overview
 	.span4
-		%h1.app_h1_full="Tippeingabe #{@matchday.number}. Spieltag"
-		%h2.app_h2_full= "#{@matchday.has_wday_humanize}, #{"%02d" % @matchday.date.day}.#{"%02d" % @matchday.date.month}.#{@matchday.date.year}, #{"%02d" % @matchday.date.hour}:#{"%02d" % @matchday.date.min}"
+		%h1="Tippeingabe #{@matchday.number}. Spieltag"
+		%h2= "#{@matchday.has_wday_humanize}, #{"%02d" % @matchday.date.day}.#{"%02d" % @matchday.date.month}.#{@matchday.date.year}, #{"%02d" % @matchday.date.hour}:#{"%02d" % @matchday.date.min}" if !current_user.is_admin?
+		%h2="#{@user.nickname} (#{@user.name})" if current_user.is_admin?
 	.span8
 		%p
 		- i=0
@@ -12,13 +13,23 @@
 				- if i == 18
 					%p
 				- if m == @matchday
-					=link_to m.number, user_season_matchday_tipps_index_path(@user, @season, m), class: 'btn btn-warning btn-small width_12'
+					=link_to m.number, user_season_matchday_tipps_index_path(@user, @season, m), class: 'btn btn-primary btn-small width_12'
 				- else
 					- if m.has_games_to_tipp?
-						=link_to m.number, user_season_matchday_tipps_index_path(@user, @season, m), class: 'btn btn-info btn-small width_12'
+						- if m.is_all_tipped_by?(@user)
+							=link_to m.number, user_season_matchday_tipps_index_path(@user, @season, m), class: 'btn btn-success btn-small width_12'
+						-else
+							=link_to m.number, user_season_matchday_tipps_index_path(@user, @season, m), class: 'btn btn-danger btn-small width_12'
 					- else
 						=link_to m.number, user_season_matchday_tipps_index_path(@user, @season, m), class: 'btn btn-small width_12'
 %p
+- if current_user.is_admin?
+	.row
+		=form_tag user_season_matchday_tipps_select_user_path, method: :post do
+			.left.span1.input-medium= select_tag "user", options_from_collection_for_select(@season.users, "id", "nickname", selected: @user.id)
+			&nbsp;
+			=submit_tag " <- Gehe zu", class: "btn btn-primary btn-small"
+%hr			
 - if @matchday.games.any?
 	=form_tag user_season_matchday_tipps_save_tipps_path, method: :post do
 		%table.table.table-bordered.table-condensed#games
@@ -70,7 +81,9 @@
 									="#{game.home_goals} : #{game.guest_goals}"
 									%br
 									=game.tipp_of(@user) ? "#{game.tipp_of(@user).points} Punkte" : "0 Punkte"
-		.right= submit_tag 'Speichern'
+		
+		.right=submit_tag 'Speichern', class: "btn btn-primary" unless i == 0
+		%h3.right= "#{@matchday.finished_points_for(@user)} Punkte" if i == 0
 - else
 	%h1 
 	%h6.center="Keine Spiele verfügbar"

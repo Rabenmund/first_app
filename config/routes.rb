@@ -10,6 +10,7 @@ BasicApp::Application.routes.draw do
       resources :matchdays do
         get '/tipps/index', to: 'tipps#index'
         post '/tipps/save_tipps', to: 'tipps#save_tipps'
+        post '/tipps/select_user', to: 'tipps#select_user'
       end
     end
   end
@@ -39,6 +40,8 @@ BasicApp::Application.routes.draw do
         put 'redate_games'
       end
       resources :games 
+      get '/listings/overview', to: 'listings#overview'
+      get '/listings/tipplist', to: 'listings#tipplist'
     end
   end
 

@@ -26,8 +26,12 @@ class Tipp < ActiveRecord::Base
         return 0
       end
     else
-      return nil
+      return 0
     end
+  end
+  
+  def finished?
+    game.finished?
   end
   
   private

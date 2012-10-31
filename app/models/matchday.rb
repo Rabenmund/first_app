@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 class Matchday < ActiveRecord::Base
-  attr_accessible :date, :number, :season_id, :arrange_dates, :finished
+  attr_accessible :date, :number, :season_id, :arrange_dates
   
   attr_accessor :arrange_dates
   
@@ -13,6 +13,7 @@ class Matchday < ActiveRecord::Base
   has_many                    :tipps, through: :games
   has_and_belongs_to_many     :winners, class_name: "User", join_table: :matchdays_winners
   has_and_belongs_to_many     :seconds, class_name: "User", join_table: :matchdays_seconds
+  has_many                    :users, through: :season
    
   validates :number, presence: true, numericality: true
   validates :date, presence: true
@@ -73,6 +74,42 @@ class Matchday < ActiveRecord::Base
       return true if game.can_be_tipped?
     end
     return false
+  end
+  
+  def points_for(user)
+    u_tipps = tipps.where(user_id: user.id)
+    sum = 0  
+    u_tipps.each {|t| sum += t.points  } if u_tipps.any?
+    return sum
+  end
+  
+  def finished_points_for(user)
+    u_tipps = tipps.where(user_id: user.id)
+    sum = 0  
+    u_tipps.each { |t| sum += t.points if t.game.finished? } if u_tipps.any?
+    return sum
+  end
+  
+  def is_all_tipped_by?(user)
+    games.each { |g| return false if g.can_be_tipped? && !g.tipp_of(user) }
+  end
+  
+  def is_finished?
+    if games
+      games.each {|g| return false unless g.finished? }
+      return true
+    else
+      return false
+    end
+  end
+  
+  def users_ordered_by_points
+    users.sort { |b,a| self.finished_points_for(a) <=> self.finished_points_for(b) }
+  end
+  
+  def first_game_date
+    all = games.sort { |a,b| a.date <=> b.date }
+    all.first.date
   end
   
   private
