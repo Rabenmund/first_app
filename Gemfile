@@ -15,7 +15,8 @@ gem "simple_form"
 gem "show_for"
 
 group :development, :test do
-  gem 'sqlite3'
+  gem 'pg'
+  #gem 'sqlite3'
   #mysql2
   gem 'rspec-rails'
 end
@@ -39,6 +40,7 @@ group :test do
   gem 'guard-rspec'
   gem 'launchy'
   gem 'forgery'
+  gem 'timecop'
 end
 
 group :production do
