@@ -39,13 +39,19 @@ FactoryGirl.define do
     end
     factory :full_season do
       after :build do |season|
-        10.times { user = create :user; season.users << user }
+        30.times { user = create :user; season.users << user }
         18.times { team = create :team; season.teams << team }
         34.times { |i| md = create :matchday, season: season, date: DateTime.now+1.day+i.day, number: i }
       end
       after :create do |season|
         season.matchdays.each do |md|
           9.times { |i| game = create :game, date: md.date, home: season.teams[i*2], guest: season.teams[(i*2)+1], matchday: md; }
+          season.games.each do |g|
+            season.users.each do |u|
+              create :tipp, home_goals: 0, guest_goals: 0, game: g, user: u
+            end
+          end
+          
         end
       end
     end
@@ -65,14 +71,16 @@ FactoryGirl.define do
     finished                  false
     matchday                  
     after :build do |game|
-      game.matchday.season.teams << game.home #unless game.matchday.season.teams.includes(game.home)
-      game.matchday.season.teams << game.guest #unless game.matchday.season.teams.includes(game.guest)
+      game.matchday.season.teams << game.home unless game.matchday.season.teams.include?(game.home)
+      game.matchday.season.teams << game.guest unless game.matchday.season.teams.include?(game.guest)
     end
   end
   
   factory :tipp, class: Tipp do
     user
     game
+    home_goals  1
+    guest_goals 1
     after :build do |tipp|
       tipp.game.matchday.season.users << tipp.user
     end

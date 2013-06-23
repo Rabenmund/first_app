@@ -7,16 +7,27 @@ class Tipp < ActiveRecord::Base
   has_one :season, through: :matchday
   
   validates_presence_of :user, :game, :guest_goals, :home_goals
-  
-  validate :user_active_in_season
+
+  validate :user_active_in_season, on: :create
   validate :game_can_be_tipped
   
+  before_save :set_points 
   
   def self.active
     Tipp.joins(:game).where("finished = ? AND date > ?", false, DateTime.now)
   end
+    
+  def finished?
+    game.finished?
+  end
   
-  def points
+  def set_points
+    self.points = give_points
+  end
+  
+  private
+
+  def give_points
     if game.home_goals && game.guest_goals
       tipp_delta = home_goals - guest_goals
       game_delta = game.home_goals - game.guest_goals
@@ -29,12 +40,6 @@ class Tipp < ActiveRecord::Base
       return 0
     end
   end
-  
-  def finished?
-    game.finished?
-  end
-  
-  private
   
   def calculate_points(tipp_delta, game_delta)
     if tipp_delta == game_delta

@@ -1,0 +1,11 @@
+= simple_form_for @team, html: { multipart: true } do |f|
+  = f.input :name, autofocus: true, input_html: { class: 'input-block-level' }
+
+  = f.input :shortname, input_html: { class: 'input-block-level' }, label: :Kurzname
+    
+  = f.input :chars, input_html: { class: 'input-block-level' }, label: :Kennzeichen
+    
+  .form-actions
+    .pull-right
+      = link_to "Cancel", teams_path, class: 'cancel_link'
+      = f.submit "Mannschaft erstellen", class: 'btn btn-primary', data: { disable_with: "Mannschaft wird erstellt" }

@@ -79,6 +79,7 @@
 	</ul>
 	<section>
 	  <%= link_to "Einstellungen", edit_season_path(@season), class: "btn" if current_user.is_admin? %>
+	  <%= button_to "Punkte neu berechnen!", action: "calculate", class: "btn btn-warning" if current_user.is_admin?%>
 	</section>
   </aside>
 </div>

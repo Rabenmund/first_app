@@ -3,14 +3,20 @@ class User < ActiveRecord::Base
   
   has_secure_password
   
-  has_many :microposts, dependent: :destroy
+  has_many                :microposts, dependent: :destroy
   has_and_belongs_to_many :seasons
+  has_many                :matchday_user_results, dependent: :destroy
   has_many                :matchdays, through: :seasons
-  has_and_belongs_to_many :winners, class_name: "Matchday", join_table: :matchdays_winners
-  has_and_belongs_to_many :seconds, class_name: "Matchday", join_table: :matchdays_seconds
+#  has_and_belongs_to_many :winners, class_name: "Matchday", join_table: :matchdays_winners, dependent: :destroy
+#  has_and_belongs_to_many :seconds, class_name: "Matchday", join_table: :matchdays_seconds, dependent: :destroy
+#  before :destroy { winners.clear; seconds.clear }
   
-  
-  has_many :tipps
+  has_many                :tipps, dependent: :destroy
+
+  # habtm is for simple use and does not support dependent: :destroy
+  # for complex use has_many through: is needed
+  # this hook clears the join tables for the habtm associations
+  before_destroy { seasons.clear }
 
   before_save do |user|  
     user.email = email.downcase

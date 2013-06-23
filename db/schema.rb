@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121030100625) do
+ActiveRecord::Schema.define(:version => 20121106160101) do
 
   create_table "games", :force => true do |t|
     t.integer  "home_goals"
@@ -25,7 +25,19 @@ ActiveRecord::Schema.define(:version => 20121030100625) do
     t.boolean  "finished"
   end
 
-  add_index "games", ["home_id", "guest_id"], :name => "pair"
+  add_index "games", ["date"], :name => "index_games_on_date"
+  add_index "games", ["finished"], :name => "index_games_on_finished"
+  add_index "games", ["guest_id"], :name => "index_games_on_guest_id"
+  add_index "games", ["home_id"], :name => "index_games_on_home_id"
+  add_index "games", ["matchday_id"], :name => "index_games_on_matchday_id"
+
+  create_table "matchday_user_results", :force => true do |t|
+    t.integer  "matchday_id"
+    t.integer  "user_id"
+    t.integer  "points"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "matchdays", :force => true do |t|
     t.integer  "number"
@@ -35,6 +47,11 @@ ActiveRecord::Schema.define(:version => 20121030100625) do
     t.integer  "season_id"
     t.boolean  "finished"
   end
+
+  add_index "matchdays", ["date"], :name => "index_matchdays_on_date"
+  add_index "matchdays", ["finished"], :name => "index_matchdays_on_finished"
+  add_index "matchdays", ["number"], :name => "index_matchdays_on_number"
+  add_index "matchdays", ["season_id"], :name => "index_matchdays_on_season_id"
 
   create_table "matchdays_seconds", :id => false, :force => true do |t|
     t.integer "matchday_id"
@@ -60,6 +77,15 @@ ActiveRecord::Schema.define(:version => 20121030100625) do
   end
 
   add_index "microposts", ["user_id", "created_at"], :name => "index_microposts_on_user_id_and_created_at"
+  add_index "microposts", ["user_id"], :name => "index_microposts_on_user_id"
+
+  create_table "season_user_results", :force => true do |t|
+    t.integer  "season_id"
+    t.integer  "user_id"
+    t.integer  "points"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "seasons", :force => true do |t|
     t.string   "name"
@@ -71,15 +97,25 @@ ActiveRecord::Schema.define(:version => 20121030100625) do
     t.boolean  "finished"
   end
 
+  add_index "seasons", ["end_date"], :name => "index_seasons_on_end_date"
+  add_index "seasons", ["finished"], :name => "index_seasons_on_finished"
+  add_index "seasons", ["start_date"], :name => "index_seasons_on_start_date"
+
   create_table "seasons_teams", :id => false, :force => true do |t|
     t.integer "season_id"
     t.integer "team_id"
   end
 
+  add_index "seasons_teams", ["season_id"], :name => "index_seasons_teams_on_season_id"
+  add_index "seasons_teams", ["team_id"], :name => "index_seasons_teams_on_team_id"
+
   create_table "seasons_users", :id => false, :force => true do |t|
     t.integer "season_id"
     t.integer "user_id"
   end
+
+  add_index "seasons_users", ["season_id"], :name => "index_seasons_users_on_season_id"
+  add_index "seasons_users", ["user_id"], :name => "index_seasons_users_on_user_id"
 
   create_table "teams", :force => true do |t|
     t.string   "name"
@@ -89,6 +125,8 @@ ActiveRecord::Schema.define(:version => 20121030100625) do
     t.string   "chars"
   end
 
+  add_index "teams", ["chars"], :name => "index_teams_on_chars"
+
   create_table "tipps", :force => true do |t|
     t.integer  "home_goals"
     t.integer  "guest_goals"
@@ -96,7 +134,11 @@ ActiveRecord::Schema.define(:version => 20121030100625) do
     t.integer  "game_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "points"
   end
+
+  add_index "tipps", ["game_id"], :name => "index_tipps_on_game_id"
+  add_index "tipps", ["user_id"], :name => "index_tipps_on_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "name"
@@ -110,6 +152,8 @@ ActiveRecord::Schema.define(:version => 20121030100625) do
     t.string   "nickname"
   end
 
+  add_index "users", ["admin"], :name => "index_users_on_admin"
+  add_index "users", ["deactivated"], :name => "index_users_on_deactivated"
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
   add_index "users", ["nickname"], :name => "index_users_on_nickname", :unique => true
   add_index "users", ["remember_token"], :name => "index_users_on_remember_token"

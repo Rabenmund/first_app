@@ -16,10 +16,12 @@ Team.destroy_all
 Game.destroy_all
 Matchday.destroy_all
 Tipp.destroy_all
+User.destroy_all
 
 
 
 puts "Starts Seeds..."
+
 
 ###################
 #     Admin       #
@@ -41,7 +43,6 @@ else
 end
 
 admin = User.find_by_name(adminname)
-
 
 ###################
 #     Season      #
@@ -65,16 +66,24 @@ masterseason = Season.find_by_name(mastername)
 #     Users       #
 ###################
 
-unless User.count > 99
-  puts "User: Not enough user found. Will create #{100-User.count} users."
-  (100-User.count).times { FactoryGirl.create :user, deactivated: false }
+unless User.count > 32
+  puts "User: Not enough user found. Will create #{33-User.count} users."
+  (33-User.count).times { FactoryGirl.create :user, deactivated: false }
   puts "User: all needed users created!"
 else
   puts "User: Enough user found!"
 end
 
 puts "Users->Season: ensure all Users are associated to <#{masterseason.name}>"
-User.all.each { |u| masterseason.users << u unless u.seasons.include?  masterseason || u.name == adminname}
+User.all.each do |u| 
+  if u.seasons.include? masterseason 
+    puts "User #{u.name} already associated to season #{masterseason.name}"
+  elsif u == admin
+    puts "User #{u.name} is admin and will not be associated to season #{masterseason.name}"
+  else
+    masterseason.users << u
+  end
+end
 
 ###################
 #     Teams       #
@@ -285,108 +294,104 @@ mds = {
     s7: [ :vfb, :sge, 2, 1, true ],
     s8: [ :fcb, :b04, 1, 2, true ],
     s9: [ :h96, :gla, 2, 3, true ]
-  }
+  },
   m10: { 
-    s1: [ :xxx, :xxx, , , false ],
-    s2: [ :xxx, :xxx, , , false ],
-    s3: [ :xxx, :xxx, , , false ],
-    s4: [ :xxx, :xxx, , , false ],
-    s5: [ :xxx, :xxx, , , false ],
-    s6: [ :xxx, :xxx, , , false ],
-    s7: [ :xxx, :xxx, , , false ],
-    s8: [ :xxx, :xxx, , , false ],
-    s9: [ :xxx, :xxx, , , false ]
+    s1: [ :sge, :grf, nil, nil, false ],
+    s2: [ :bvb, :vfb, nil, nil, false ],
+    s3: [ :gla, :scf, nil, nil, false ],
+    s4: [ :h96, :fca, nil, nil, false ],
+    s5: [ :fcn, :wol, nil, nil, false ],
+    s6: [ :tsg, :s04, nil, nil, false ],
+    s7: [ :hsv, :fcb, nil, nil, false ],
+    s8: [ :b04, :f95, nil, nil, false ],
+    s9: [ :svw, :m05, nil, nil, false ]
   },
   m11: { 
-    s1: [ :xxx, :xxx, 0, 0, true ],
-    s2: [ :xxx, :xxx, 0, 0, true ],
-    s3: [ :xxx, :xxx, 0, 0, true ],
-    s4: [ :xxx, :xxx, 0, 0, true ],
-    s5: [ :xxx, :xxx, 0, 0, true ],
-    s6: [ :xxx, :xxx, 0, 0, true ],
-    s7: [ :xxx, :xxx, 0, 0, true ],
-    s8: [ :xxx, :xxx, 0, 0, true ],
-    s9: [ :xxx, :xxx, 0, 0, true ]
+    s1: [ :m05, :fcn, nil, nil, false ],
+    s2: [ :fcb, :sge, nil, nil, false ],
+    s3: [ :s04, :svw, nil, nil, false ],
+    s4: [ :scf, :hsv, nil, nil, false ],
+    s5: [ :fca, :bvb, nil, nil, false ],
+    s6: [ :f95, :tsg, nil, nil, false ],
+    s7: [ :wol, :b04, nil, nil, false ],
+    s8: [ :vfb, :h96, nil, nil, false ],
+    s9: [ :grf, :gla, nil, nil, false ]
   },
   m12: { 
-    s1: [ :xxx, :xxx, 0, 0, true ],
-    s2: [ :xxx, :xxx, 0, 0, true ],
-    s3: [ :xxx, :xxx, 0, 0, true ],
-    s4: [ :xxx, :xxx, 0, 0, true ],
-    s5: [ :xxx, :xxx, 0, 0, true ],
-    s6: [ :xxx, :xxx, 0, 0, true ],
-    s7: [ :xxx, :xxx, 0, 0, true ],
-    s8: [ :xxx, :xxx, 0, 0, true ],
-    s9: [ :xxx, :xxx, 0, 0, true ]
+    s1: [ :bvb, :grf, nil, nil, false ],
+    s2: [ :gla, :vfb, nil, nil, false ],
+    s3: [ :h96, :scf, nil, nil, false ],
+    s4: [ :fcn, :fcb, nil, nil, false ],
+    s5: [ :hsv, :m05, nil, nil, false ],
+    s6: [ :sge, :fca, nil, nil, false ],
+    s7: [ :b04, :s04, nil, nil, false ],
+    s8: [ :svw, :f95, nil, nil, false ],
+    s9: [ :tsg, :wol, nil, nil, false ]
   },
   m13: { 
-    s1: [ :xxx, :xxx, 0, 0, true ],
-    s2: [ :xxx, :xxx, 0, 0, true ],
-    s3: [ :xxx, :xxx, 0, 0, true ],
-    s4: [ :xxx, :xxx, 0, 0, true ],
-    s5: [ :xxx, :xxx, 0, 0, true ],
-    s6: [ :xxx, :xxx, 0, 0, true ],
-    s7: [ :xxx, :xxx, 0, 0, true ],
-    s8: [ :xxx, :xxx, 0, 0, true ],
-    s9: [ :xxx, :xxx, 0, 0, true ]
+    s1: [ :f95, :hsv, nil, nil, false ],
+    s2: [ :fcb, :h96, nil, nil, false ],
+    s3: [ :s04, :sge, nil, nil, false ],
+    s4: [ :wol, :svw, nil, nil, false ],
+    s5: [ :m05, :bvb, nil, nil, false ],
+    s6: [ :grf, :fcn, nil, nil, false ],
+    s7: [ :scf, :vfb, nil, nil, false ],
+    s8: [ :tsg, :b04, nil, nil, false ],
+    s9: [ :fca, :gla, nil, nil, false ]
   },
   m14: { 
-    s1: [ :xxx, :xxx, 0, 0, true ],
-    s2: [ :xxx, :xxx, 0, 0, true ],
-    s3: [ :xxx, :xxx, 0, 0, true ],
-    s4: [ :xxx, :xxx, 0, 0, true ],
-    s5: [ :xxx, :xxx, 0, 0, true ],
-    s6: [ :xxx, :xxx, 0, 0, true ],
-    s7: [ :xxx, :xxx, 0, 0, true ],
-    s8: [ :xxx, :xxx, 0, 0, true ],
-    s9: [ :xxx, :xxx, 0, 0, true ]
+    s1: [ :bvb, :f95, nil, nil, false ],
+    s2: [ :h96, :grf, nil, nil, false ],
+    s3: [ :hsv, :s04, nil, nil, false ],
+    s4: [ :sge, :m05, nil, nil, false ],
+    s5: [ :gla, :wol, nil, nil, false ],
+    s6: [ :vfb, :fca, nil, nil, false ],
+    s7: [ :svw, :b04, nil, nil, false ],
+    s8: [ :fcn, :tsg, nil, nil, false ],
+    s9: [ :scf, :fcb, nil, nil, false ]
   },
   m15: { 
-    s1: [ :xxx, :xxx, 0, 0, true ],
-    s2: [ :xxx, :xxx, 0, 0, true ],
-    s3: [ :xxx, :xxx, 0, 0, true ],
-    s4: [ :xxx, :xxx, 0, 0, true ],
-    s5: [ :xxx, :xxx, 0, 0, true ],
-    s6: [ :xxx, :xxx, 0, 0, true ],
-    s7: [ :xxx, :xxx, 0, 0, true ],
-    s8: [ :xxx, :xxx, 0, 0, true ],
-    s9: [ :xxx, :xxx, 0, 0, true ]
+    s1: [ :f95, :sge, nil, nil, false ],
+    s2: [ :s04, :gla, nil, nil, false ],
+    s3: [ :b04, :fcn, nil, nil, false ],
+    s4: [ :m05, :h96, nil, nil, false ],
+    s5: [ :fca, :scf, nil, nil, false ],
+    s6: [ :grf, :vfb, nil, nil, false ],
+    s7: [ :fcb, :bvb, nil, nil, false ],
+    s8: [ :tsg, :svw, nil, nil, false ],
+    s9: [ :wol, :hsv, nil, nil, false ]
   },
   m16: { 
-    s1: [ :xxx, :xxx, 0, 0, true ],
-    s2: [ :xxx, :xxx, 0, 0, true ],
-    s3: [ :xxx, :xxx, 0, 0, true ],
-    s4: [ :xxx, :xxx, 0, 0, true ],
-    s5: [ :xxx, :xxx, 0, 0, true ],
-    s6: [ :xxx, :xxx, 0, 0, true ],
-    s7: [ :xxx, :xxx, 0, 0, true ],
-    s8: [ :xxx, :xxx, 0, 0, true ],
-    s9: [ :xxx, :xxx, 0, 0, true ]
+    s1: [ :hsv, :tsg, nil, nil, false ],
+    s2: [ :bvb, :wol, nil, nil, false ],
+    s3: [ :vfb, :s04, nil, nil, false ],
+    s4: [ :fcn, :f95, nil, nil, false ],
+    s5: [ :scf, :grf, nil, nil, false ],
+    s6: [ :fca, :fcb, nil, nil, false ],
+    s7: [ :sge, :svw, nil, nil, false ],
+    s8: [ :gla, :m05, nil, nil, false ],
+    s9: [ :h96, :b04, nil, nil, false ]
   },
   m17: { 
-    s1: [ :xxx, :xxx, 0, 0, true ],
-    s2: [ :xxx, :xxx, 0, 0, true ],
-    s3: [ :xxx, :xxx, 0, 0, true ],
-    s4: [ :xxx, :xxx, 0, 0, true ],
-    s5: [ :xxx, :xxx, 0, 0, true ],
-    s6: [ :xxx, :xxx, 0, 0, true ],
-    s7: [ :xxx, :xxx, 0, 0, true ],
-    s8: [ :xxx, :xxx, 0, 0, true ],
-    s9: [ :xxx, :xxx, 0, 0, true ]
+    s1: [ :fcb, :gla, nil, nil, false ],
+    s2: [ :s04, :scf, nil, nil, false ],
+    s3: [ :b04, :hsv, nil, nil, false ],
+    s4: [ :wol, :sge, nil, nil, false ],
+    s5: [ :svw, :fcn, nil, nil, false ],
+    s6: [ :tsg, :bvb, nil, nil, false ],
+    s7: [ :m05, :vfb, nil, nil, false ],
+    s8: [ :grf, :fca, nil, nil, false ],
+    s9: [ :f95, :h96, nil, nil, false ]
   }
+  
 }
-
-
 
 i = 0
 mds.each do |md, games|
-  puts "key: ", md
-  puts "value: ", games
   i += 1
-  puts "Matchday: #{i}"
+  puts "Matchdays: #{i} / #{i+17}"
   j = 0
   if m = masterseason.matchdays.find_by_number(i)
-    puts "before: "
     games.each do |game|
       j += 1
       s0 = game[1][0].to_sym
@@ -395,8 +400,50 @@ mds.each do |md, games|
       t1 = Team.find_by_name(teams[s1][:name])
       FactoryGirl.create :game, home: t0, guest: t1, home_goals: game[1][2], 
                 guest_goals: game[1][3], finished: game[1][4], date: (m.date+1.day), matchday: m
+      if n = masterseason.matchdays.find_by_number(i+17)
+        FactoryGirl.create :game, home: t1, guest: t0, home_goals: nil, 
+                  guest_goals: nil, finished: false, date: (n.date+1.day), matchday: n
+      else
+        puts "Matchday: #{i+17} not found!"
+      end
     end
   else
     puts "Matchday: #{i} not found!"
   end
+  
 end
+###################
+#     Tipps       #
+###################
+  
+puts "Tipps: create random tipps for all games by all users"
+  
+# To ensure that all existing games can be tipped, the regular validation has to be overwritten
+class Game
+  def can_be_tipped?
+    true
+  end
+end
+
+prod = masterseason.users.count * masterseason.games.count
+puts "create ", prod , " tipps in ", (prod/23).to_i, "steps: "
+i = 0
+masterseason.users.each do |u|
+  masterseason.games.each do |g|
+    i += 1
+    if i == 23
+      i = 0
+      print "."
+    else
+      t = u.tipps.new(home_goals: rand(4), guest_goals: rand(4), game_id: g.id )
+      t.save
+    end
+  end
+end
+
+puts "create result tables"
+puts "#{masterseason.games.count} Games: ";
+masterseason.games.each { |g| g.save; print "*" }
+
+
+

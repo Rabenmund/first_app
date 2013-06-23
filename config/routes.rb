@@ -44,6 +44,7 @@ BasicApp::Application.routes.draw do
       get '/listings/tipplist', to: 'listings#tipplist'
     end
   end
+  post 'seasons/:id/calculate',  to: 'seasons#calculate'
 
 
   # The priority is based upon order of creation:

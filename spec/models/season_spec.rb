@@ -136,6 +136,14 @@ describe Season do
       end
     end
     
+    context :users_ordered_by_points do
+      before do
+
+        @season = create :full_season
+
+      end
+    end
+    
   end
 end
     

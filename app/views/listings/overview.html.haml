@@ -33,16 +33,15 @@
 					%th.points-column="Punkte"
 			%tbody
 				- i = 0
-				- @season.users_ordered_by_points.each do |user|
-					- points = @season.points_for(user)
+				- @season.results.each do |result|
 					- i += 1
-					- j = i if points != @last_points
+					- j = i if result.points != @last_points
 					%tr
 						%td.place-column=j.nil? ? "" : "#{j}."
-						%td.picture-column.center=link_to gravatar_for(user, size: 40), user
-						%td.nickname-column=user.nickname
-						%td.points-column=points
-					- @last_points = points
+						%td.picture-column.center=link_to gravatar_for(result.user, size: 40), result.user
+						%td.nickname-column=result.user.nickname
+						%td.points-column=result.points
+					- @last_points = result.points
 	.span6
 		- if @season.last_finished_matchday.number < @matchday.number
 			%h3= "Noch kein Ergebnis für Spieltag #{@matchday.number}."
@@ -58,15 +57,14 @@
 						%th.points-column="Punkte"
 				%tbody
 					- i = 0
-					- @matchday.users_ordered_by_points.each do |user|
-						- points = @matchday.points_for(user)
+					- @matchday.results.each do |result|
 						- i += 1
-						- j = i if points != @last_points
+						- j = i if result.points != @last_points
 						%tr
 							%td.place-column=j.nil? ? "" : "#{j}."
-							%td.picture-column.center=link_to gravatar_for(user, size: 40), user
-							%td.nickname-column=user.nickname
-							%td.points-column=points
-						- @last_points = points
+							%td.picture-column.center=link_to gravatar_for(result.user, size: 40), result.user
+							%td.nickname-column=result.user.nickname
+							%td.points-column=result.points
+						- @last_points = result.points
 
 		

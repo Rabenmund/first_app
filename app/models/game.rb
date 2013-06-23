@@ -8,7 +8,8 @@ class Game < ActiveRecord::Base
   belongs_to :home, class_name: "Team"
   belongs_to :guest, class_name: "Team"
   has_one    :season, through: :matchday
-  has_many   :tipps
+  has_many   :tipps, dependent: :destroy
+  has_many   :users, through: :season
   
   validates :guest_id,    presence: true
   validates :home_id,     presence: true
@@ -18,10 +19,13 @@ class Game < ActiveRecord::Base
   validate  :home_associated_to_season
   validate  :guest_associated_to_season
   validate  :date_in_seasons_range
-  validate  :game_count
+  validate  :game_count, on: :create
   validate  :home_unique_at_matchday
   validate  :guest_unique_at_matchday
   validate  :home_not_guest
+  
+  after_save  :recalc_tipps!
+  after_save  :recalc_results! 
   
   scope :ordered_by_date, order: :date
   
@@ -78,9 +82,27 @@ class Game < ActiveRecord::Base
   end
   
   def has_final_result?
-    finished? && home_goals && guest_goals
+    finished? && has_result?
   end
   
+  def recalc_tipps!
+    tipps.each do |t| 
+      t.set_points
+      t.save(validate: false)
+    end
+  end
+
+  def recalc_results!
+    users.each do |u|
+      mur = MatchdayUserResult.find_or_create_by_matchday_id_and_user_id(matchday.id, u.id)
+      mur.calculate
+      mur.save
+      sur = SeasonUserResult.find_or_create_by_season_id_and_user_id(season.id, u.id)
+      sur.calculate
+      sur.save
+    end
+  end
+
   private
   
   def home_not_guest

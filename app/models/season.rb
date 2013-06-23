@@ -11,6 +11,12 @@ class Season < ActiveRecord::Base
   has_many :matchdays, dependent: :destroy, order: :number
   has_many :games, through: :matchdays
   has_many :tipps, through: :games
+  has_many :results, class_name: "SeasonUserResult", order: "points DESC", dependent: :destroy
+  
+  # habtm is for simple use and does not support dependent: :destroy
+  # for complex use has_many through: is needed
+  # this hook clears the join tables for the habtm associations
+  before_destroy { users.clear; teams.clear }
   
   # before_save :default_values
   # def default_values
@@ -80,6 +86,10 @@ class Season < ActiveRecord::Base
   
   def users_ordered_by_points
     users.sort { |b,a| self.points_for(a) <=> self.points_for(b) }
+  end
+  
+  def calculate_all
+    matchdays.each { |md| md.games.first.save }
   end
   
   private 

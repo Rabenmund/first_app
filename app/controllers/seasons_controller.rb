@@ -7,6 +7,8 @@ class SeasonsController < ApplicationController
   skip_filter   :admin,           only: []
   skip_filter   :correct_user
 
+  before_filter :load_season, except: [:new, :create, :index]
+
   def new
     @season = Season.new
   end
@@ -31,11 +33,9 @@ class SeasonsController < ApplicationController
   end
   
   def edit
-    @season = Season.find(params[:id])
   end
   
   def destroy
-    season = Season.find(params[:id])
     if season.destroy
       flash[:success] = "#{season.name} wurde gelöscht."
     else
@@ -47,7 +47,6 @@ class SeasonsController < ApplicationController
   end
   
   def update
-    @season = Season.find(params[:id])
     if @season.update_attributes(params[:season])
       flash[:success] = "Einstellungen geändert."
       render 'show'
@@ -58,6 +57,14 @@ class SeasonsController < ApplicationController
   end
   
   def show
+  end
+  
+  def calculate
+    @season.calculate_all
+    redirect_to @season
+  end
+  
+  def load_season
     @season = Season.find(params[:id])
   end
   

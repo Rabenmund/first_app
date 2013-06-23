@@ -2,18 +2,20 @@
 # encoding: utf-8
 
 class Matchday < ActiveRecord::Base
-  attr_accessible :date, :number, :season_id, :arrange_dates
+  attr_accessible :date, :number, :season_id, :arrange_dates, :finished
   
   attr_accessor :arrange_dates
   
-  belongs_to                  :season
-  has_many                    :games
-  has_many                    :homes, through: :games
-  has_many                    :guests, through: :games
-  has_many                    :tipps, through: :games
-  has_and_belongs_to_many     :winners, class_name: "User", join_table: :matchdays_winners
-  has_and_belongs_to_many     :seconds, class_name: "User", join_table: :matchdays_seconds
-  has_many                    :users, through: :season
+  belongs_to :season
+  has_many  :games, dependent: :destroy
+  has_many  :homes, through: :games
+  has_many  :guests, through: :games
+  has_many  :tipps, through: :games
+#  has_and_belongs_to_many     :winners, class_name: "User", join_table: :matchdays_winners
+#  has_and_belongs_to_many     :seconds, class_name: "User", join_table: :matchdays_seconds
+#  before :destroy { winners.clear; seconds.clear }
+  has_many  :results, class_name: "MatchdayUserResult", order: "points DESC", dependent: :destroy
+  has_many  :users, through: :season
    
   validates :number, presence: true, numericality: true
   validates :date, presence: true
